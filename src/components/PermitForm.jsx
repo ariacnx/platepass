@@ -249,48 +249,7 @@ Return ONLY the JSON array.`
                 Live Validation — {permit.rules.length} Rules
               </div>
 
-              {/* Proximity check result for liquor license */}
-              {permit.id === 'liquor-license' && proximityLoading && (
-                <div className="p-4 border-l-2 border-l-stone-300 bg-stone-50/50 mb-3">
-                  <div className="text-[10px] uppercase tracking-[0.2em] text-stone-500 font-medium">🔍 Checking proximity...</div>
-                  <div className="text-xs text-stone-400 mt-1">Searching for schools, churches, and playgrounds within 600ft of your address</div>
-                </div>
-              )}
-
-              {permit.id === 'liquor-license' && proximityResult && (
-                <div className={`p-4 border-l-2 mb-3 ${
-                  proximityResult.status === 'warning' 
-                    ? 'border-l-red-400 bg-red-50/50'
-                    : proximityResult.status === 'clear'
-                    ? 'border-l-emerald-400 bg-emerald-50/50'
-                    : 'border-l-amber-400 bg-amber-50/50'
-                }`}>
-                  <div className={`text-[10px] uppercase tracking-[0.2em] font-medium mb-1 ${
-                    proximityResult.status === 'warning' ? 'text-red-600'
-                    : proximityResult.status === 'clear' ? 'text-emerald-600'
-                    : 'text-amber-600'
-                  }`}>
-                    {proximityResult.status === 'warning' ? '🚨 Proximity Alert' 
-                     : proximityResult.status === 'clear' ? '✓ Proximity Clear'
-                     : '⚠ Check Manually'}
-                  </div>
-                  <div className="text-xs text-stone-500 leading-relaxed">{proximityResult.message}</div>
-                  {proximityResult.nearby?.length > 0 && (
-                    <div className="mt-2 space-y-1">
-                      {proximityResult.nearby.map((n, i) => (
-                        <div key={i} className="text-xs text-red-600 flex items-center gap-2">
-                          <span>{n.type}</span>
-                          <span className="font-medium">{n.name}</span>
-                          <span className="text-stone-400">{n.distance}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <div className="text-[10px] text-stone-300 mt-2 italic">Auto-checked via OpenStreetMap · CA B&P Code §23789</div>
-                </div>
-              )}
-
-              {validationResults.length === 0 && !proximityLoading && !proximityResult && (
+              {validationResults.length === 0 && (
                 <p className="text-xs text-stone-300 font-light italic">Start filling out the form to see real-time validation...</p>
               )}
 
@@ -325,15 +284,51 @@ Return ONLY the JSON array.`
               </div>
             </div>
 
-            {/* Layer 2: AI Deep Analysis */}
-            {(aiLoading || aiInsights.length > 0) && (
+            {/* Layer 2: AI Deep Analysis + Proximity */}
+            {(aiLoading || aiInsights.length > 0 || proximityResult || proximityLoading) && (
               <div className="border border-purple-200 p-6 bg-purple-50/30">
                 <div className="text-[10px] text-purple-600 uppercase tracking-[0.3em] mb-4 flex items-center gap-2">
                   <span className="text-sm">🧠</span>
-                  {aiLoading ? 'AI Analyzing Cross-Field Risks...' : `AI Analysis — ${aiInsights.length} Insight${aiInsights.length !== 1 ? 's' : ''}`}
+                  {(aiLoading || proximityLoading) ? 'AI Analyzing Cross-Field Risks...' : 'AI Analysis'}
                 </div>
 
-                {aiLoading && (
+                {/* Proximity result inside AI section */}
+                {permit.id === 'liquor-license' && proximityLoading && (
+                  <div className="p-4 border-l-2 border-l-purple-300 bg-purple-50/30 mb-3">
+                    <div className="text-[10px] uppercase tracking-[0.2em] text-purple-500 font-medium">🔍 Searching nearby schools & churches...</div>
+                    <div className="text-xs text-purple-400 mt-1">Checking address against OpenStreetMap data</div>
+                  </div>
+                )}
+
+                {permit.id === 'liquor-license' && proximityResult && proximityResult.status === 'warning' && (
+                  <div className="p-4 border-l-2 border-l-red-400 bg-red-50/50 mb-3">
+                    <div className="text-[10px] uppercase tracking-[0.2em] font-medium mb-1 text-red-600">
+                      🚨 Proximity Risk — $13,800 Non-Refundable
+                    </div>
+                    <div className="text-xs text-stone-500 leading-relaxed">{proximityResult.message}</div>
+                    {proximityResult.nearby?.length > 0 && (
+                      <div className="mt-2 space-y-1">
+                        {proximityResult.nearby.map((n, i) => (
+                          <div key={i} className="text-xs text-red-600 flex items-center gap-2">
+                            <span>{n.type}</span>
+                            <span className="font-medium">{n.name}</span>
+                            <span className="text-stone-400">{n.distance}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    <div className="text-[10px] text-stone-300 mt-2 italic">Auto-checked via OpenStreetMap · CA B&P Code §23789</div>
+                  </div>
+                )}
+
+                {permit.id === 'liquor-license' && proximityResult && proximityResult.status === 'clear' && (
+                  <div className="p-4 border-l-2 border-l-emerald-400 bg-emerald-50/50 mb-3">
+                    <div className="text-[10px] uppercase tracking-[0.2em] font-medium mb-1 text-emerald-600">✓ Proximity Clear</div>
+                    <div className="text-xs text-stone-500 leading-relaxed">{proximityResult.message}</div>
+                  </div>
+                )}
+
+                {(aiLoading && !proximityLoading) && (
                   <div className="flex items-center gap-2 text-xs text-purple-400">
                     <span className="animate-pulse">●</span> Reading your full application against regulatory context...
                   </div>
