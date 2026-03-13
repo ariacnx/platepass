@@ -48,7 +48,7 @@ export default function Landing({ navigate }) {
 
         <div className="relative z-10 flex flex-col items-center justify-center px-6 py-20 md:py-24 max-w-2xl mx-auto text-center animate-fade-in">
           <div className="text-xs text-stone-500 uppercase tracking-[0.3em] mb-6">
-            Restaurant Permit Navigator
+            TurboTax for Restaurant Permits
           </div>
 
           <h1 className="font-display text-6xl md:text-8xl font-normal text-stone-900 tracking-wide mb-4">
