@@ -29,32 +29,32 @@ export default function Interview({ answers, setAnswers, navigate }) {
   const canProceed = q.required ? !!currentValue : true
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Progress bar */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-white/5">
-        <div className="h-1 bg-white/5">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-stone-100">
+        <div className="h-0.5 bg-stone-100">
           <div
-            className="h-full bg-gradient-to-r from-orange-500 to-amber-500 transition-all duration-500"
+            className="h-full bg-stone-900 transition-all duration-500"
             style={{ width: `${progress}%` }}
           />
         </div>
-        <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
-          <button onClick={back} className="text-white/40 hover:text-white/70 text-sm cursor-pointer">
+        <div className="max-w-2xl mx-auto px-6 py-4 flex items-center justify-between">
+          <button onClick={back} className="text-stone-400 hover:text-stone-900 text-[10px] uppercase tracking-[0.2em] cursor-pointer transition-colors">
             ← Back
           </button>
-          <span className="text-white/30 text-sm">{currentQ + 1} of {total}</span>
+          <span className="text-[10px] text-stone-300 uppercase tracking-[0.2em]">{currentQ + 1} of {total}</span>
           <div className="w-12" />
         </div>
       </div>
 
       {/* Question */}
-      <div className="flex-1 flex items-center justify-center px-4 pt-20 pb-32" key={q.id}>
-        <div className="max-w-xl w-full animate-fade-in">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+      <div className="flex-1 flex items-center justify-center px-6 pt-24 pb-32" key={q.id}>
+        <div className="max-w-lg w-full animate-fade-in">
+          <h2 className="text-2xl md:text-3xl font-light text-stone-900 mb-2 tracking-wide">
             {q.question}
           </h2>
           {q.subtitle && (
-            <p className="text-white/40 text-lg mb-8">{q.subtitle}</p>
+            <p className="text-sm text-stone-400 mb-10 leading-relaxed">{q.subtitle}</p>
           )}
 
           {/* Text input */}
@@ -66,7 +66,7 @@ export default function Interview({ answers, setAnswers, navigate }) {
               onKeyDown={e => e.key === 'Enter' && canProceed && next()}
               placeholder={q.placeholder}
               autoFocus
-              className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-white text-xl placeholder:text-white/20 focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/20 transition"
+              className="w-full px-0 py-3 bg-transparent border-b border-stone-300 focus:border-stone-900 text-lg font-light text-stone-900 placeholder:text-stone-300 focus:outline-none transition"
             />
           )}
 
@@ -79,13 +79,13 @@ export default function Interview({ answers, setAnswers, navigate }) {
               onKeyDown={e => e.key === 'Enter' && canProceed && next()}
               placeholder={q.placeholder}
               autoFocus
-              className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-white text-xl placeholder:text-white/20 focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/20 transition"
+              className="w-full px-0 py-3 bg-transparent border-b border-stone-300 focus:border-stone-900 text-lg font-light text-stone-900 placeholder:text-stone-300 focus:outline-none transition"
             />
           )}
 
           {/* Select options */}
           {q.type === 'select' && (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {q.options.map(opt => {
                 const val = typeof opt === 'string' ? opt : opt.value
                 const label = typeof opt === 'string' ? opt : opt.label
@@ -95,22 +95,21 @@ export default function Interview({ answers, setAnswers, navigate }) {
                     key={val}
                     onClick={() => {
                       setValue(val)
-                      // Auto-advance on select after a brief delay
                       setTimeout(() => {
                         if (currentQ < total - 1) {
                           setCurrentQ(prev => prev + 1)
                         } else {
                           navigate('dashboard')
                         }
-                      }, 300)
+                      }, 250)
                     }}
-                    className={`w-full text-left px-6 py-4 rounded-xl border transition-all cursor-pointer ${
+                    className={`w-full text-left px-5 py-4 border transition-all cursor-pointer ${
                       isSelected
-                        ? 'border-orange-500/50 bg-orange-500/10 text-white'
-                        : 'border-white/10 bg-white/[0.02] text-white/70 hover:border-white/20 hover:bg-white/5'
+                        ? 'border-stone-900 bg-stone-50 text-stone-900'
+                        : 'border-stone-200 text-stone-600 hover:border-stone-400'
                     }`}
                   >
-                    <span className="text-lg">{label}</span>
+                    <span className="text-sm tracking-wide">{label}</span>
                   </button>
                 )
               })}
@@ -122,19 +121,19 @@ export default function Interview({ answers, setAnswers, navigate }) {
             <button
               onClick={next}
               disabled={!canProceed}
-              className={`mt-8 px-8 py-4 rounded-xl font-semibold text-lg transition-all cursor-pointer ${
+              className={`mt-10 px-8 py-3 text-sm uppercase tracking-[0.2em] transition-all cursor-pointer ${
                 canProceed
-                  ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 shadow-lg shadow-orange-500/20'
-                  : 'bg-white/5 text-white/20 cursor-not-allowed'
+                  ? 'bg-stone-900 text-white hover:bg-stone-800'
+                  : 'bg-stone-100 text-stone-300 cursor-not-allowed'
               }`}
             >
-              {currentQ < total - 1 ? 'Continue' : 'See My Permits →'}
+              {currentQ < total - 1 ? 'Continue' : 'See My Permits'}
             </button>
           )}
 
           {/* Press Enter hint */}
           {(q.type === 'text' || q.type === 'number') && canProceed && (
-            <p className="text-white/20 text-sm mt-3">Press Enter ↵</p>
+            <p className="text-[10px] text-stone-300 uppercase tracking-[0.2em] mt-3">Press Enter ↵</p>
           )}
         </div>
       </div>
