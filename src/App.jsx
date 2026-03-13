@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import Landing from './components/Landing'
+import SmartStart from './components/SmartStart'
 import Interview from './components/Interview'
 import Dashboard from './components/Dashboard'
 import PermitForm from './components/PermitForm'
 
 export default function App() {
-  const [page, setPage] = useState('landing') // landing | interview | dashboard | permit
+  const [page, setPage] = useState('landing') // landing | smart | interview | dashboard | permit
   const [answers, setAnswers] = useState({})
   const [selectedPermit, setSelectedPermit] = useState(null)
 
@@ -16,8 +17,15 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-white">
       {page === 'landing' && <Landing navigate={navigate} />}
+      {page === 'smart' && (
+        <SmartStart
+          answers={answers}
+          setAnswers={setAnswers}
+          navigate={navigate}
+        />
+      )}
       {page === 'interview' && (
         <Interview
           answers={answers}
