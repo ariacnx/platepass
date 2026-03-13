@@ -63,19 +63,21 @@ export default function Landing({ navigate }) {
             Do you know it takes 3 forms, 3 agencies, and 3 rulebooks to put a heater on your patio?
           </p>
 
-          <button
-            onClick={() => navigate('smart')}
-            className="px-12 py-4 bg-orange-500 hover:bg-orange-600 text-white text-sm uppercase tracking-[0.2em] transition-all cursor-pointer rounded-lg shadow-lg shadow-orange-500/25"
-          >
-            Get Started
-          </button>
+          <div className="flex items-center justify-center gap-4">
+            <button
+              onClick={() => navigate('smart')}
+              className="px-12 py-4 bg-orange-500 hover:bg-orange-600 text-white text-sm uppercase tracking-[0.2em] transition-all cursor-pointer rounded-lg shadow-lg shadow-orange-500/25"
+            >
+              Get Started
+            </button>
 
-          <button
-            onClick={() => navigate('smart', { demo: true })}
-            className="ml-4 px-8 py-4 bg-white hover:bg-stone-50 text-stone-900 text-sm uppercase tracking-[0.2em] transition-all cursor-pointer border border-stone-300 rounded-lg"
-          >
-            ▶ Try Demo
-          </button>
+            <button
+              onClick={() => navigate('smart', { demo: true })}
+              className="px-12 py-4 bg-white hover:bg-stone-50 text-stone-900 text-sm uppercase tracking-[0.2em] transition-all cursor-pointer border border-stone-300 rounded-lg"
+            >
+              ▶ Try Demo
+            </button>
+          </div>
 
           <p className="text-xs text-stone-500 uppercase tracking-[0.2em] mt-4">
             2 minutes · No signup required
