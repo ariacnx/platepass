@@ -101,7 +101,7 @@ export default function Landing({ navigate }) {
             <div>
               <div className="mb-3 text-orange-500"><ShieldCheck size={28} /></div>
               <div className="text-xs text-orange-500 uppercase tracking-[0.2em] mb-3 font-medium">Step 3</div>
-              <div className="text-base font-medium text-stone-900 mb-2 tracking-wide">Auto-Fill Fill Out & Validate Catch Mistakes</div>
+              <div className="text-base font-medium text-stone-900 mb-2 tracking-wide">Auto-Fill & Catch Mistakes</div>
               <div className="text-sm text-stone-500 leading-relaxed">
               </div>
             </div>
