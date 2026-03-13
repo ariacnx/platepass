@@ -36,6 +36,14 @@ export default function PermitForm({ permit, answers, prefillData = {}, navigate
     }
   }, [permit.id, answers])
 
+  // Auto-run Layer 2 on prefilled data
+  useEffect(() => {
+    if (Object.keys(prefillData).length >= 2) {
+      const timer = setTimeout(() => runAIValidation(permit, prefillData), 1500)
+      return () => clearTimeout(timer)
+    }
+  }, [])
+
   const updateField = useCallback((fieldId, value) => {
     setFormData(prev => {
       const next = { ...prev, [fieldId]: value }
