@@ -1,15 +1,37 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { SUBMIT_INFO } from '../data/submitInfo'
+import { checkProximity } from '../utils/proximityCheck'
 
 export default function PermitForm({ permit, answers, prefillData = {}, navigate }) {
   const [formData, setFormData] = useState(prefillData)
   const [validationResults, setValidationResults] = useState(() => {
-    // Run initial validation on prefilled data
     if (Object.keys(prefillData).length > 0) {
       return validatePermit(permit, prefillData)
     }
     return []
   })
+  const [proximityResult, setProximityResult] = useState(null)
+  const [proximityLoading, setProximityLoading] = useState(false)
+
+  // Auto-check proximity for liquor license when address is available
+  useEffect(() => {
+    if (permit.id === 'liquor-license' && answers?.city && !proximityResult) {
+      const address = answers.address || answers.city
+      if (address) {
+        setProximityLoading(true)
+        checkProximity(address).then(result => {
+          setProximityResult(result)
+          setProximityLoading(false)
+          // Auto-fill the near-school field
+          if (result.status === 'warning') {
+            setFormData(prev => ({ ...prev, 'near-school': 'Yes' }))
+          } else if (result.status === 'clear') {
+            setFormData(prev => ({ ...prev, 'near-school': 'No' }))
+          }
+        })
+      }
+    }
+  }, [permit.id, answers])
 
   const updateField = useCallback((fieldId, value) => {
     setFormData(prev => {
@@ -143,7 +165,48 @@ export default function PermitForm({ permit, answers, prefillData = {}, navigate
                 Live Validation — {permit.rules.length} Rules
               </div>
 
-              {validationResults.length === 0 && (
+              {/* Proximity check result for liquor license */}
+              {permit.id === 'liquor-license' && proximityLoading && (
+                <div className="p-4 border-l-2 border-l-stone-300 bg-stone-50/50 mb-3">
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-stone-500 font-medium">🔍 Checking proximity...</div>
+                  <div className="text-xs text-stone-400 mt-1">Searching for schools, churches, and playgrounds within 600ft of your address</div>
+                </div>
+              )}
+
+              {permit.id === 'liquor-license' && proximityResult && (
+                <div className={`p-4 border-l-2 mb-3 ${
+                  proximityResult.status === 'warning' 
+                    ? 'border-l-red-400 bg-red-50/50'
+                    : proximityResult.status === 'clear'
+                    ? 'border-l-emerald-400 bg-emerald-50/50'
+                    : 'border-l-amber-400 bg-amber-50/50'
+                }`}>
+                  <div className={`text-[10px] uppercase tracking-[0.2em] font-medium mb-1 ${
+                    proximityResult.status === 'warning' ? 'text-red-600'
+                    : proximityResult.status === 'clear' ? 'text-emerald-600'
+                    : 'text-amber-600'
+                  }`}>
+                    {proximityResult.status === 'warning' ? '🚨 Proximity Alert' 
+                     : proximityResult.status === 'clear' ? '✓ Proximity Clear'
+                     : '⚠ Check Manually'}
+                  </div>
+                  <div className="text-xs text-stone-500 leading-relaxed">{proximityResult.message}</div>
+                  {proximityResult.nearby?.length > 0 && (
+                    <div className="mt-2 space-y-1">
+                      {proximityResult.nearby.map((n, i) => (
+                        <div key={i} className="text-xs text-red-600 flex items-center gap-2">
+                          <span>{n.type}</span>
+                          <span className="font-medium">{n.name}</span>
+                          <span className="text-stone-400">{n.distance}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div className="text-[10px] text-stone-300 mt-2 italic">Auto-checked via OpenStreetMap · CA B&P Code §23789</div>
+                </div>
+              )}
+
+              {validationResults.length === 0 && !proximityLoading && !proximityResult && (
                 <p className="text-xs text-stone-300 font-light italic">Start filling out the form to see real-time validation...</p>
               )}
 
