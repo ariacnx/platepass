@@ -56,7 +56,7 @@ export default function Landing({ navigate }) {
           </h1>
 
           <p className="text-xl md:text-2xl font-normal text-stone-600 mb-3 tracking-wide">
-            Every permit. Every rule. One place.
+            We make restaurant compliance easy.
           </p>
 
           <p className="text-base text-stone-500 max-w-lg mx-auto mb-14 leading-relaxed">
