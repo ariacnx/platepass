@@ -63,7 +63,7 @@ export default function Landing({ navigate }) {
             Do you know it takes 3 forms, 3 agencies, and 3 rulebooks to put a heater on your patio?
           </p>
 
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-4 mt-6 mb-2">
             <button
               onClick={() => navigate('smart')}
               className="px-12 py-4 bg-orange-500 hover:bg-orange-600 text-white text-sm uppercase tracking-[0.2em] transition-all cursor-pointer rounded-lg shadow-lg shadow-orange-500/25"
