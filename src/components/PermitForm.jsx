@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { SUBMIT_INFO } from '../data/submitInfo'
 import { checkProximity } from '../utils/proximityCheck'
 
@@ -12,6 +12,9 @@ export default function PermitForm({ permit, answers, prefillData = {}, navigate
   })
   const [proximityResult, setProximityResult] = useState(null)
   const [proximityLoading, setProximityLoading] = useState(false)
+  const [aiInsights, setAiInsights] = useState([])
+  const [aiLoading, setAiLoading] = useState(false)
+  const aiTimerRef = useRef(null)
 
   // Auto-check proximity for liquor license when address is available
   useEffect(() => {
@@ -38,9 +41,78 @@ export default function PermitForm({ permit, answers, prefillData = {}, navigate
       const next = { ...prev, [fieldId]: value }
       const results = validatePermit(permit, next)
       setValidationResults(results)
+
+      // Layer 2: Debounced AI deep validation
+      if (aiTimerRef.current) clearTimeout(aiTimerRef.current)
+      aiTimerRef.current = setTimeout(() => {
+        runAIValidation(permit, next)
+      }, 2000)
+
       return next
     })
   }, [permit])
+
+  const runAIValidation = async (permit, data) => {
+    const filledFields = Object.entries(data).filter(([_, v]) => v && v !== '')
+    if (filledFields.length < 2) return // need at least 2 fields
+
+    const apiKey = import.meta.env.VITE_OPENAI_API_KEY
+    if (!apiKey) return
+
+    setAiLoading(true)
+    try {
+      const fieldSummary = filledFields.map(([k, v]) => {
+        const field = permit.formFields.find(f => f.id === k)
+        return `${field?.label || k}: ${Array.isArray(v) ? v.join(', ') : v}`
+      }).join('\n')
+
+      const rulesSummary = permit.rules.map(r => `- ${r.condition}: ${r.description} (${r.citation})`).join('\n')
+
+      const prompt = `You are PlatePass, a restaurant permit compliance expert. Analyze this ${permit.name} application for cross-field conflicts, hidden risks, and issues that individual rule checks would miss.
+
+Application data:
+${fieldSummary}
+
+Known regulations:
+${rulesSummary}
+
+Find 1-3 CROSS-FIELD insights — things that only become problems when you look at multiple fields together. Be specific, cite real regulations, and include cost/time impact.
+
+Return JSON array: [{"status":"warning"|"info","title":"short title","message":"detailed explanation with specific numbers","citation":"regulation reference"}]
+
+Only return issues NOT already caught by individual field rules. Focus on cross-field conflicts and subtle implications. If nothing additional to flag, return [].
+Return ONLY the JSON array.`
+
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [{ role: 'user', content: prompt }],
+          temperature: 0.2,
+          max_tokens: 600
+        })
+      })
+
+      const result = await res.json()
+      const content = result.choices?.[0]?.message?.content?.trim()
+      
+      let jsonStr = content
+      if (content?.startsWith('```')) {
+        jsonStr = content.replace(/```json?\n?/g, '').replace(/```/g, '').trim()
+      }
+
+      const insights = JSON.parse(jsonStr || '[]')
+      setAiInsights(insights)
+    } catch (e) {
+      console.error('AI validation failed:', e)
+      setAiInsights([])
+    }
+    setAiLoading(false)
+  }
 
   return (
     <div className="min-h-screen bg-white px-6 py-8 max-w-5xl mx-auto">
@@ -240,6 +312,45 @@ export default function PermitForm({ permit, answers, prefillData = {}, navigate
                 ))}
               </div>
             </div>
+
+            {/* Layer 2: AI Deep Analysis */}
+            {(aiLoading || aiInsights.length > 0) && (
+              <div className="border border-purple-200 p-6 bg-purple-50/30">
+                <div className="text-[10px] text-purple-600 uppercase tracking-[0.3em] mb-4 flex items-center gap-2">
+                  <span className="text-sm">🧠</span>
+                  {aiLoading ? 'AI Analyzing Cross-Field Risks...' : `AI Analysis — ${aiInsights.length} Insight${aiInsights.length !== 1 ? 's' : ''}`}
+                </div>
+
+                {aiLoading && (
+                  <div className="flex items-center gap-2 text-xs text-purple-400">
+                    <span className="animate-pulse">●</span> Reading your full application against regulatory context...
+                  </div>
+                )}
+
+                <div className="space-y-3">
+                  {aiInsights.map((insight, i) => (
+                    <div
+                      key={i}
+                      className={`p-4 border-l-2 ${
+                        insight.status === 'warning'
+                          ? 'border-l-amber-400 bg-amber-50/50'
+                          : 'border-l-purple-300 bg-purple-50/30'
+                      }`}
+                    >
+                      <div className={`text-[10px] uppercase tracking-[0.2em] mb-1 font-medium ${
+                        insight.status === 'warning' ? 'text-amber-600' : 'text-purple-600'
+                      }`}>
+                        {insight.status === 'warning' ? '⚠ ' : '💡 '}{insight.title}
+                      </div>
+                      <div className="text-xs text-stone-500 font-light leading-relaxed">{insight.message}</div>
+                      {insight.citation && (
+                        <div className="text-[10px] text-stone-300 mt-2 italic">{insight.citation}</div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Rules reference */}
             <div className="border border-stone-100 p-6">
