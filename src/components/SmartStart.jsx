@@ -188,6 +188,12 @@ Return ONLY the JSON object, no other text.`
         return
       }
 
+      // If in upload mode, just append transcript to text input (don't auto-process)
+      if (mode === 'upload') {
+        setTextInput(prev => prev ? prev + ' ' + transcript : transcript)
+        setIsProcessing(false)
+        return
+      }
       setTextInput(transcript)
       const extracted = await parseWithAI(transcript)
       showExtracted(extracted)
@@ -514,15 +520,27 @@ Return ONLY the JSON object, no other text.`
             </div>
           )}
 
-          {/* Also allow adding a description */}
+          {/* Add context via text or voice */}
           <div className="mt-8">
-            <label className="text-xs text-stone-500 uppercase tracking-[0.2em] block mb-2">
-              Add context (optional)
-            </label>
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-xs text-stone-500 uppercase tracking-[0.2em]">
+                Add context (optional)
+              </label>
+              <button
+                onClick={isRecording ? stopRecording : startRecording}
+                className={`flex items-center gap-1.5 text-xs uppercase tracking-[0.15em] px-3 py-1.5 border transition cursor-pointer ${
+                  isRecording
+                    ? 'border-red-400 text-red-500 bg-red-50 animate-pulse'
+                    : 'border-stone-300 text-stone-500 hover:border-stone-900 hover:text-stone-900'
+                }`}
+              >
+                {isRecording ? '⏹ Stop' : '🎙️ Voice'}
+              </button>
+            </div>
             <textarea
               value={textInput}
               onChange={e => setTextInput(e.target.value)}
-              placeholder="Any additional details about your restaurant plans..."
+              placeholder="Tell us more — or use the voice button above. e.g. 'I want live music on weekends and late-night ramen'"
               rows={3}
               className="w-full px-4 py-3 bg-white border border-stone-300 focus:border-stone-900 text-sm font-light text-stone-900 placeholder:text-stone-300 focus:outline-none transition resize-none"
             />
