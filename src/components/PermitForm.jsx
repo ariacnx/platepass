@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react'
+import { SUBMIT_INFO } from '../data/submitInfo'
 
 export default function PermitForm({ permit, answers, prefillData = {}, navigate }) {
   const [formData, setFormData] = useState(prefillData)
@@ -121,6 +122,15 @@ export default function PermitForm({ permit, answers, prefillData = {}, navigate
                 )}
               </div>
             ))}
+            {/* Download button */}
+            <div className="mt-8 flex gap-4">
+              <button
+                onClick={() => downloadPDF(permit, formData)}
+                className="flex-1 px-8 py-4 bg-stone-900 hover:bg-stone-800 text-white text-sm uppercase tracking-[0.2em] transition-all cursor-pointer"
+              >
+                ↓ Download Application PDF
+              </button>
+            </div>
           </div>
         </div>
 
@@ -188,8 +198,91 @@ export default function PermitForm({ permit, answers, prefillData = {}, navigate
           </div>
         </div>
       </div>
+
+      {/* How to Submit section */}
+      {SUBMIT_INFO[permit.id] && (() => {
+        const info = SUBMIT_INFO[permit.id]
+        return (
+          <div className="mt-10 border border-stone-200 p-8 animate-fade-in">
+            <div className="text-[10px] text-stone-500 uppercase tracking-[0.3em] mb-6">How to Submit</div>
+            
+            <div className="grid sm:grid-cols-2 gap-8 mb-8">
+              <div>
+                <div className="text-[10px] text-stone-500 uppercase tracking-[0.15em] mb-2 font-medium">Where</div>
+                <div className="text-base text-stone-900 font-medium mb-1">{info.where}</div>
+                <div className="text-sm text-stone-500 leading-relaxed">{info.address}</div>
+                <div className="text-sm text-stone-500 mt-1">{info.hours}</div>
+                <a href={info.website} target="_blank" rel="noopener noreferrer" className="text-sm text-stone-900 underline underline-offset-2 mt-2 inline-block hover:text-stone-600 transition">
+                  Visit website →
+                </a>
+              </div>
+              <div>
+                <div className="text-[10px] text-stone-500 uppercase tracking-[0.15em] mb-2 font-medium">Method</div>
+                <div className="text-sm text-stone-700 mb-3">{info.method}</div>
+                <div className="text-[10px] text-stone-500 uppercase tracking-[0.15em] mb-2 font-medium">Expected Wait</div>
+                <div className="text-sm text-stone-700">{info.estimatedWait}</div>
+              </div>
+            </div>
+
+            <div className="mb-8">
+              <div className="text-[10px] text-stone-500 uppercase tracking-[0.15em] mb-3 font-medium">Documents You'll Need</div>
+              <div className="grid sm:grid-cols-2 gap-2">
+                {info.documents.map((doc, i) => (
+                  <div key={i} className="flex items-start gap-2 text-sm text-stone-600">
+                    <span className="text-stone-300 mt-0.5">☐</span>
+                    <span>{doc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div className="text-[10px] text-stone-500 uppercase tracking-[0.15em] mb-3 font-medium">Pro Tips</div>
+              <div className="space-y-2">
+                {info.tips.map((tip, i) => (
+                  <div key={i} className="flex items-start gap-2 text-sm text-stone-600 leading-relaxed">
+                    <span className="text-orange-400 mt-0.5 flex-shrink-0">💡</span>
+                    <span>{tip}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )
+      })()}
     </div>
   )
+}
+
+// ─── Download PDF helper ───
+function downloadPDF(permit, formData) {
+  // Generate a printable HTML document and trigger download
+  const fields = permit.formFields.map(f => {
+    const val = formData[f.id] || ''
+    const displayVal = Array.isArray(val) ? val.join(', ') : val
+    return `<tr><td style="padding:8px 12px;border-bottom:1px solid #eee;color:#666;font-size:13px;width:40%">${f.label}</td><td style="padding:8px 12px;border-bottom:1px solid #eee;font-size:13px;font-weight:500">${displayVal || '—'}</td></tr>`
+  }).join('')
+
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${permit.name} — PlatePass Application</title>
+<style>body{font-family:Inter,-apple-system,sans-serif;margin:40px;color:#1c1917}h1{font-size:24px;font-weight:300;margin-bottom:4px}
+.meta{font-size:12px;color:#888;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:24px}
+table{width:100%;border-collapse:collapse;margin-top:16px}
+.footer{margin-top:40px;font-size:11px;color:#aaa;border-top:1px solid #eee;padding-top:16px}</style></head>
+<body>
+<div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.25em;margin-bottom:8px">PlatePass Application</div>
+<h1>${permit.emoji} ${permit.name}</h1>
+<div class="meta">${permit.agency} · $${permit.cost.min}–$${permit.cost.max} · ${permit.timeline}</div>
+<table>${fields}</table>
+<div class="footer">Generated by PlatePass · ${new Date().toLocaleDateString()} · This is a draft application — verify all information before submitting to ${permit.agency}.</div>
+</body></html>`
+
+  const blob = new Blob([html], { type: 'text/html' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `${permit.id}-application.html`
+  a.click()
+  URL.revokeObjectURL(url)
 }
 
 // ─── Validation Engine (same logic as v1) ───
