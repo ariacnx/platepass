@@ -1,83 +1,257 @@
 COMMERCIAL LEASE AGREEMENT
+CONFIDENTIAL
 
 Date: January 15, 2026
 Lease ID: CL-2026-0847
 
-LANDLORD: Valencia Street Properties LLC
+═══════════════════════════════════════════════════════
+                    PARTIES
+═══════════════════════════════════════════════════════
+
+LANDLORD: Mission District Properties LLC
+  Address: 2847 Mission Street, Suite 400, San Francisco, CA 94110
+  Contact: James Morrison, Managing Partner
+  Phone: (415) 555-0192
+
 TENANT: Nori Ramen LLC (DBA "Nori")
+  Registered Agent: Aria Chen
+  Managing Member: Aria Chen
+  Business Address: 777 W Middlefield Rd, Mountain View, CA 94043
+  Phone: (650) 555-0134
+  Email: aria@noriramen.com
 
-PREMISES:
+ENTITY INFORMATION:
+  Entity Type: Limited Liability Company (LLC)
+  State of Formation: California
+  Date of Formation: November 8, 2025
+  Federal EIN: 88-4527193
+  California SOS Filing Number: 202536847291
+
+═══════════════════════════════════════════════════════
+                    PREMISES
+═══════════════════════════════════════════════════════
+
 Address: 3101 24th Street, San Francisco, CA 94110
-Suite: Ground Floor
+Suite: Ground Floor (Units A and B combined)
 Total Square Footage: 2,400 sq ft
-  - Kitchen/Back of House: 800 sq ft
-  - Dining Room: 1,200 sq ft
-  - Storage/Office: 400 sq ft
-Previous Use: Retail (clothing boutique — "Thread & Needle")
-Zoning: NCT (Neighborhood Commercial Transit)
+  - Kitchen / Back of House: 800 sq ft
+  - Dining Room: 1,200 sq ft (including bar area: 180 sq ft)
+  - Storage / Walk-in Cooler: 220 sq ft
+  - Office / Staff Break Room: 200 sq ft
+  - Restrooms (2): 120 sq ft total
+  - Hallway / Entry: 80 sq ft (not usable for dining)
 
-LEASE TERMS:
+Building: Mixed-use, 3-story (residential above, ground floor commercial)
+Year Built: 1924
+Previous Use: Retail clothing boutique ("Thread & Needle"), closed Oct 2025
+Current Condition: Retail configuration — open floor plan, no kitchen,
+  no hood ventilation, carpet flooring throughout, one single-stall 
+  restroom, retail-grade electrical (100A panel)
+Zoning: NCT (Neighborhood Commercial Transit)
+Lot Frontage: 25 feet on 24th Street
+
+═══════════════════════════════════════════════════════
+                  LEASE TERMS
+═══════════════════════════════════════════════════════
+
 Commencement Date: April 1, 2026
 Term: 5 years with option to renew for 5 additional years
 Monthly Base Rent: $8,500/month (Year 1), 3% annual increases
-Security Deposit: $25,500 (3 months)
+Security Deposit: $25,500 (3 months' rent)
 Triple Net (NNN): Tenant responsible for property tax, insurance, CAM
+First Month + Deposit Due at Signing: $34,000
+Estimated Monthly NNN Charges: $1,200/month
 
-PERMITTED USE:
+FREE RENT PERIOD: Landlord grants Tenant a 3-month rent abatement 
+(April–June 2026) for buildout period. Tenant is responsible for 
+NNN charges during this period.
+
+EXPECTED OPENING: Tenant anticipates opening for business no later 
+than August 1, 2026.
+
+═══════════════════════════════════════════════════════
+                  PERMITTED USE
+═══════════════════════════════════════════════════════
+
 The Premises shall be used solely for the operation of a full-service 
-Japanese restaurant with alcoholic beverage service, including but not 
-limited to dine-in, takeout, and delivery services. Tenant intends to 
-apply for a Type 47 (On-Sale General — Eating Place) liquor license 
-from the California Department of Alcoholic Beverage Control.
+Japanese restaurant (ramen, izakaya-style small plates, and sushi) 
+with alcoholic beverage service, including but not limited to:
+  - Dine-in service (lunch and dinner)
+  - Takeout and delivery (via third-party platforms)
+  - Late-night service (kitchen open until 1:00 AM on Fri/Sat)
+  - Weekend brunch service with bottomless mimosas
 
-TENANT IMPROVEMENTS:
+Tenant intends to apply for a Type 47 (On-Sale General — Eating Place) 
+liquor license from the California Department of Alcoholic Beverage 
+Control (ABC). Tenant estimates that alcoholic beverage sales will 
+constitute approximately 35-40% of total revenue.
+
+ENTERTAINMENT: Tenant plans to host live acoustic music on Friday and 
+Saturday evenings (7 PM – 11 PM) and DJ sets for Sunday brunch. 
+Tenant will install a small performance area (approximately 60 sq ft) 
+in the dining room. Background music system (Sonos) for all other hours.
+
+HOURS OF OPERATION:
+  - Mon–Thu: 11:00 AM – 10:00 PM
+  - Fri–Sat: 11:00 AM – 1:00 AM
+  - Sun: 10:00 AM – 10:00 PM (brunch starts 10 AM)
+
+═══════════════════════════════════════════════════════
+              TENANT IMPROVEMENTS
+═══════════════════════════════════════════════════════
+
 Tenant shall, at Tenant's sole cost and expense, perform the following 
 improvements to convert the Premises from retail to restaurant use:
-- Full commercial kitchen buildout including Type I hood ventilation
-- Installation of 3-compartment sink and handwashing stations
-- Grease interceptor installation (minimum 50 GPM)
-- ADA-compliant restroom renovation (2 restrooms)
-- New flooring: commercial non-slip tile in kitchen, hardwood in dining
-- Fire suppression system (Ansul) installation in kitchen hood
-- HVAC upgrade for kitchen ventilation and makeup air
 
-OUTDOOR DINING:
+KITCHEN:
+  - Full commercial kitchen buildout
+  - Type I hood ventilation system with makeup air unit
+  - Fire suppression system (Ansul wet chemical) in kitchen hood
+  - 3-compartment sink installation (18" x 18" basins)
+  - Two (2) dedicated handwashing stations
+  - Walk-in cooler (8' x 10') and walk-in freezer (6' x 8')
+  - Grease interceptor installation (minimum 50 GPM)
+  - Sushi bar with refrigerated display case
+
+DINING ROOM:
+  - Full bar build (8 bar seats, draft system, 3-bay underbar sink)
+  - New flooring: commercial non-slip tile in kitchen, hardwood in dining
+  - Performance area with basic sound system and stage lighting
+  - Remove carpet throughout (CRITICAL: carpet not permitted in food service)
+
+BUILDING SYSTEMS:
+  - Electrical upgrade: 100A panel → 400A service (required for kitchen)
+  - Plumbing: new water and waste lines for kitchen and bar
+  - HVAC upgrade for kitchen ventilation and dining room comfort
+  - Gas line installation for commercial range, fryers, and ramen cookers
+
+RESTROOMS:
+  - Convert single retail restroom to two (2) ADA-compliant restrooms
+  - Add required handwashing station in restroom hallway
+
+ESTIMATED BUILDOUT COST: $285,000 – $340,000 (per contractor bid)
+ESTIMATED BUILDOUT TIMELINE: 12–16 weeks
+
+═══════════════════════════════════════════════════════
+                OUTDOOR DINING
+═══════════════════════════════════════════════════════
+
 Landlord consents to Tenant applying for a sidewalk dining permit from 
-the City of San Francisco for up to 8 outdoor seats on the Valencia 
-Street frontage. Sidewalk width at premises: approximately 14 feet.
-Tenant shall be solely responsible for obtaining all necessary permits.
+the City and County of San Francisco for outdoor seating on the 24th 
+Street frontage.
 
-SEATING CAPACITY:
-Tenant plans for approximately 45 indoor seats (including 8 bar seats) 
-and 8 outdoor sidewalk seats, for a total capacity of 53 seats, subject 
-to fire department occupancy approval.
+Proposed Outdoor Configuration:
+  - 8 outdoor seats (4 two-top tables)
+  - Sidewalk width at premises: approximately 14 feet
+  - Proposed dining zone depth: 5 feet from building facade
+  - Tenant intends to serve alcohol in outdoor area
+  - Tenant plans to install two (2) propane patio heaters
 
-SIGNAGE:
-Tenant may install one exterior wall-mounted sign, subject to Landlord 
-approval of design and City sign permit. Building is NOT in a designated 
-historic district. Illuminated signage is permitted.
+Tenant shall be solely responsible for obtaining all necessary permits 
+and maintaining required ADA pedestrian clearance.
 
-INSURANCE:
-Tenant shall maintain commercial general liability insurance with minimum 
-coverage of $1,000,000 per occurrence and $2,000,000 aggregate, naming 
-Landlord as additional insured.
+═══════════════════════════════════════════════════════
+              SEATING CAPACITY
+═══════════════════════════════════════════════════════
 
-PROXIMITY DISCLOSURE:
-Landlord discloses that Buena Vista Horace Mann K-8 Community School is 
-located approximately 450 feet from the Premises. César Chávez Elementary 
-is approximately 520 feet from the Premises. St. Peter's Catholic Church 
-is approximately 380 feet from the Premises.
+Tenant plans for the following seating configuration:
+  - Main dining room: 32 seats (8 tables of 4)
+  - Bar seating: 8 seats
+  - Sushi bar seating: 5 seats
+  - Indoor total: 45 seats
+  - Outdoor sidewalk: 8 seats
+  - TOTAL CAPACITY: 53 seats
 
-ENTITY INFORMATION:
-Tenant Entity: Nori Ramen LLC
-State of Formation: California
-EIN: 88-4527193
-Registered Agent: Aria Chen
-Managing Member: Aria Chen
-Business Address: 777 W Middlefield Rd, Mountain View, CA 94043
+Note: Maximum occupancy subject to fire department approval based on 
+square footage calculations and exit capacity.
+
+═══════════════════════════════════════════════════════
+                    SIGNAGE
+═══════════════════════════════════════════════════════
+
+Tenant may install the following signage, subject to Landlord approval 
+and City permit:
+  - One (1) exterior wall-mounted illuminated sign (neon "Nori" logo)
+  - One (1) hanging blade sign (projecting from facade)
+  - One (1) A-frame sidewalk sign for daily specials
+  - Window vinyl graphics (menu highlights and hours)
+
+Building is NOT in a designated historic district. Building is in the 
+24th Street – Mission Neighborhood Commercial District.
+
+═══════════════════════════════════════════════════════
+                   INSURANCE
+═══════════════════════════════════════════════════════
+
+Tenant shall maintain:
+  - Commercial general liability: $1,000,000 per occurrence / 
+    $2,000,000 aggregate
+  - Liquor liability: $1,000,000 (required for alcohol service)
+  - Workers' compensation: as required by California law
+  - Property insurance: covering Tenant improvements at replacement cost
+  - Landlord named as additional insured on all policies
+
+═══════════════════════════════════════════════════════
+            PROXIMITY DISCLOSURE
+═══════════════════════════════════════════════════════
+
+Pursuant to California Business and Professions Code Section 23789, 
+Landlord makes the following disclosures regarding nearby sensitive uses:
+
+  - Buena Vista Horace Mann K-8 Community School
+    Distance: approximately 450 feet from Premises
+    Direction: North on Valencia Street
+
+  - César Chávez Elementary School  
+    Distance: approximately 520 feet from Premises
+    Direction: South on Shotwell Street
+
+  - St. Peter's Catholic Church
+    Distance: approximately 380 feet from Premises
+    Direction: East on 24th Street
+
+  - Balmy Alley Playground (public)
+    Distance: approximately 290 feet from Premises
+    Direction: South
+
+NOTICE TO TENANT: The proximity of schools, churches, and playgrounds 
+may affect Tenant's ability to obtain certain alcohol-related licenses. 
+Tenant is advised to consult with the California Department of Alcoholic 
+Beverage Control prior to finalizing this lease.
+
+═══════════════════════════════════════════════════════
+              SPECIAL CONDITIONS
+═══════════════════════════════════════════════════════
+
+1. NOISE: Building has residential units on floors 2 and 3. Tenant must 
+   comply with San Francisco Noise Ordinance (Article 29). Live music 
+   and amplified sound must cease by 10:00 PM (residential proximity).
+
+2. GREASE/ODOR: Tenant must install activated carbon filtration on 
+   kitchen exhaust to minimize cooking odors to residential tenants.
+
+3. TRASH: Tenant responsible for daily grease trap maintenance and 
+   weekly grease hauling service.
+
+4. PARKING: No dedicated parking. Street parking only. Building has 
+   no loading zone — Tenant must coordinate deliveries.
+
+5. HISTORIC MURALS: The east-facing wall of the building (alley side) 
+   contains a protected community mural. Tenant may not alter, cover, 
+   or damage this mural during construction or operation.
+
+═══════════════════════════════════════════════════════
 
 Agreed and executed as of the date first written above.
 
+
 _________________________          _________________________
-Valencia Street Properties LLC     Nori Ramen LLC
-By: James Morrison, Manager        By: Aria Chen, Managing Member
+Mission District Properties LLC    Nori Ramen LLC
+By: James Morrison                 By: Aria Chen
+Title: Managing Partner            Title: Managing Member
+Date: January 15, 2026             Date: January 15, 2026
+
+
+EXHIBIT A: Floor Plan (attached)
+EXHIBIT B: Contractor Bid Summary (attached)
+EXHIBIT C: Photos of Current Condition (attached)
