@@ -77,8 +77,67 @@ export default function Landing({ navigate }) {
         </div>
       </div>
 
-      {/* The real cost */}
+      {/* How PlatePass Works — moved above cost section */}
       <div className="border-t border-stone-200 py-20 px-6 bg-stone-50">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-xs text-stone-500 uppercase tracking-[0.3em] text-center mb-10 font-medium">
+            How PlatePass Works
+          </div>
+
+          <div className="grid sm:grid-cols-3 gap-12 text-center mb-12">
+            <div>
+              <div className="mb-3 text-orange-500"><ClipboardList size={28} /></div>
+              <div className="text-[10px] text-orange-500 uppercase tracking-[0.2em] mb-3 font-medium">Step 1</div>
+              <div className="text-base font-medium text-stone-900 mb-2 tracking-wide">Tell Us About Your Restaurant</div>
+              <div className="text-sm text-stone-500 leading-relaxed">
+              </div>
+            </div>
+            <div>
+              <div className="mb-3 text-orange-500"><FolderOpen size={28} /></div>
+              <div className="text-xs text-orange-500 uppercase tracking-[0.2em] mb-3 font-medium">Step 2</div>
+              <div className="text-base font-medium text-stone-900 mb-2 tracking-wide">See Every Permit You Need</div>
+              <div className="text-sm text-stone-500 leading-relaxed">
+              </div>
+            </div>
+            <div>
+              <div className="mb-3 text-orange-500"><ShieldCheck size={28} /></div>
+              <div className="text-xs text-orange-500 uppercase tracking-[0.2em] mb-3 font-medium">Step 3</div>
+              <div className="text-base font-medium text-stone-900 mb-2 tracking-wide">Auto-Fill Fill Out & Validate Catch Mistakes</div>
+              <div className="text-sm text-stone-500 leading-relaxed">
+              </div>
+            </div>
+          </div>
+
+          <p className="text-center text-base text-stone-500 mt-8 mb-4 leading-relaxed">
+            Real-time validation against actual regulations — catches mistakes before you submit and pay.
+          </p>
+
+          {/* Comparison */}
+          <div className="grid sm:grid-cols-2 gap-4 mt-8">
+            <div className="p-6 border border-stone-200 bg-stone-50/50 rounded-lg">
+              <div className="text-xs text-red-400 uppercase tracking-[0.2em] mb-3 font-medium">Without PlatePass</div>
+              <ul className="space-y-2 text-sm text-stone-500 leading-relaxed line-through decoration-stone-300">
+                <li>• Consultant: $5,000–$25,000</li>
+                <li>• Lawyer: $5,000–$15,000</li>
+                <li>• Your time: 80–120 hours of research</li>
+                <li>• Still miss things and get denied</li>
+              </ul>
+            </div>
+            <div className="p-6 border-2 border-orange-400 bg-orange-50/40 rounded-lg">
+              <div className="text-xs text-orange-600 uppercase tracking-[0.2em] mb-3 font-medium">With PlatePass</div>
+              <ul className="space-y-2 text-sm text-stone-600 leading-relaxed font-medium">
+                <li>✓ Free — 2 minutes</li>
+                <li>✓ Every permit identified automatically</li>
+                <li>✓ Real-time validation against actual code</li>
+                <li>✓ Catches $13,800 mistakes before you make them</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* The real cost */}
+      <div className="border-t border-stone-200 py-20 px-6">
         <div className="max-w-3xl mx-auto">
           <div className="text-xs text-stone-500 uppercase tracking-[0.3em] text-center mb-10">
             The Real Cost of Opening
@@ -116,118 +175,47 @@ export default function Landing({ navigate }) {
         </div>
       </div>
 
-      {/* What goes wrong */}
-      <div className="border-t border-stone-200 py-20 px-6">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-xs text-stone-500 uppercase tracking-[0.3em] text-center mb-10 font-medium">
+      {/* What goes wrong — horizontal scrolling cards */}
+      <div className="border-t border-stone-200 py-20 px-6 overflow-hidden">
+        <div className="max-w-3xl mx-auto mb-10">
+          <div className="text-xs text-stone-500 uppercase tracking-[0.3em] text-center font-medium">
             What Goes Wrong
           </div>
-
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div className="p-5 bg-red-50/40 border border-red-100 rounded-xl flex gap-4">
-              <div className="flex-shrink-0 mt-0.5 text-red-400"><Wine size={22} /></div>
-              <div>
-                <div className="text-sm font-semibold text-stone-900 mb-1">Wrong liquor license type</div>
-                <p className="text-sm text-stone-500 leading-relaxed">
-                  <span className="text-red-500 font-semibold">$13,800</span> application fee. Non-refundable. Type 47 vs Type 48 vs Type 41 — pick wrong and you start over.
-                </p>
-              </div>
-            </div>
-            <div className="p-5 bg-red-50/40 border border-red-100 rounded-xl flex gap-4">
-              <div className="flex-shrink-0 mt-0.5 text-red-400"><Droplets size={22} /></div>
-              <div>
-                <div className="text-sm font-semibold text-stone-900 mb-1">No 3-compartment sink</div>
-                <p className="text-sm text-stone-500 leading-relaxed">
-                  #2 reason health permits get denied. A commercial dishwasher doesn't replace it. <span className="text-red-500 font-semibold">$2k–$5k</span> to fix after the fact.
-                </p>
-              </div>
-            </div>
-            <div className="p-5 bg-red-50/40 border border-red-100 rounded-xl flex gap-4">
-              <div className="flex-shrink-0 mt-0.5 text-red-400"><School size={22} /></div>
-              <div>
-                <div className="text-sm font-semibold text-stone-900 mb-1">Location within 600ft of a school</div>
-                <p className="text-sm text-stone-500 leading-relaxed">
-                  Liquor license denied. After signing the lease, paying the deposit, starting renovations. Nobody told you to measure.
-                </p>
-              </div>
-            </div>
-            <div className="p-5 bg-orange-50/40 border border-orange-100 rounded-xl flex gap-4">
-              <div className="flex-shrink-0 mt-0.5 text-orange-400"><HardHat size={22} /></div>
-              <div>
-                <div className="text-sm font-semibold text-stone-900 mb-1">Change of occupancy surprise</div>
-                <p className="text-sm text-stone-500 leading-relaxed">
-                  Converting a retail space to restaurant? That triggers seismic, ADA, and sprinkler requirements. <span className="text-orange-600 font-semibold">$50k–$200k</span> nobody budgeted for.
-                </p>
-              </div>
-            </div>
-            <div className="sm:col-span-2 sm:max-w-[calc(50%-0.5rem)] sm:mx-auto p-5 bg-orange-50/40 border border-orange-100 rounded-xl flex gap-4">
-              <div className="flex-shrink-0 mt-0.5 text-orange-400"><Sparkles size={22} /></div>
-              <div>
-                <div className="text-sm font-semibold text-stone-900 mb-1">Carpet in the kitchen</div>
-                <p className="text-sm text-stone-500 leading-relaxed">
-                  Automatic health inspection failure. Sounds obvious? It's in the top 10 reasons for permit denial every year.
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
 
-      {/* How PlatePass helps */}
-      <div className="border-t border-stone-200 py-20 px-6 bg-stone-50">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-xs text-stone-500 uppercase tracking-[0.3em] text-center mb-10 font-medium">
-            How PlatePass Works
-          </div>
-
-          <div className="grid sm:grid-cols-3 gap-12 text-center mb-12">
-            <div>
-              <div className="mb-3 text-orange-500"><ClipboardList size={28} /></div>
-              <div className="text-[10px] text-stone-300 uppercase tracking-[0.2em] mb-3">Step 1</div>
-              <div className="text-base font-medium text-stone-900 mb-2 tracking-wide">Tell Us About Your Restaurant</div>
-              <div className="text-sm text-stone-500 leading-relaxed">
-                10 questions. Type of food, location, alcohol, seating, construction, entertainment.
+        <div className="flex gap-6 animate-scroll-cards" style={{ width: 'max-content' }}>
+          {[
+            { icon: <Wine size={24} />, color: 'red', cost: '$13,800', title: 'Wrong liquor license type', desc: 'Non-refundable fee. Type 47 vs Type 48 vs Type 41 — pick wrong and you start over.' },
+            { icon: <Droplets size={24} />, color: 'red', cost: '$2k–$5k', title: 'No 3-compartment sink', desc: '#2 reason health permits get denied. A commercial dishwasher doesn\'t replace it.' },
+            { icon: <School size={24} />, color: 'red', cost: 'DENIED', title: 'Within 600ft of a school', desc: 'Liquor license denied. After signing the lease, paying the deposit, starting renovations.' },
+            { icon: <HardHat size={24} />, color: 'orange', cost: '$50k–$200k', title: 'Change of occupancy', desc: 'Retail to restaurant triggers seismic, ADA, and sprinkler requirements nobody budgeted for.' },
+            { icon: <Sparkles size={24} />, color: 'orange', cost: 'AUTO-FAIL', title: 'Carpet in the kitchen', desc: 'Automatic health inspection failure. Top 10 reasons for permit denial every year.' },
+            { icon: <Wine size={24} />, color: 'red', cost: '$13,800', title: 'Wrong liquor license type', desc: 'Non-refundable fee. Type 47 vs Type 48 vs Type 41 — pick wrong and you start over.' },
+            { icon: <Droplets size={24} />, color: 'red', cost: '$2k–$5k', title: 'No 3-compartment sink', desc: '#2 reason health permits get denied. A commercial dishwasher doesn\'t replace it.' },
+            { icon: <School size={24} />, color: 'red', cost: 'DENIED', title: 'Within 600ft of a school', desc: 'Liquor license denied. After signing the lease, paying the deposit, starting renovations.' },
+            { icon: <HardHat size={24} />, color: 'orange', cost: '$50k–$200k', title: 'Change of occupancy', desc: 'Retail to restaurant triggers seismic, ADA, and sprinkler requirements nobody budgeted for.' },
+            { icon: <Sparkles size={24} />, color: 'orange', cost: 'AUTO-FAIL', title: 'Carpet in the kitchen', desc: 'Automatic health inspection failure. Top 10 reasons for permit denial every year.' },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className={`flex-shrink-0 w-72 p-6 rounded-xl border ${
+                item.color === 'red'
+                  ? 'bg-red-50/60 border-red-100'
+                  : 'bg-orange-50/60 border-orange-100'
+              }`}
+            >
+              <div className={`mb-3 ${item.color === 'red' ? 'text-red-400' : 'text-orange-400'}`}>
+                {item.icon}
               </div>
-            </div>
-            <div>
-              <div className="mb-3 text-orange-500"><FolderOpen size={28} /></div>
-              <div className="text-xs text-stone-300 uppercase tracking-[0.2em] mb-3">Step 2</div>
-              <div className="text-base font-medium text-stone-900 mb-2 tracking-wide">See Every Permit You Need</div>
-              <div className="text-sm text-stone-500 leading-relaxed">
-                Personalized list with costs, timelines, and the agency to contact. No more guessing.
+              <div className={`text-2xl font-bold mb-2 ${
+                item.color === 'red' ? 'text-red-500' : 'text-orange-500'
+              }`}>
+                {item.cost}
               </div>
+              <div className="text-sm font-semibold text-stone-900 mb-2">{item.title}</div>
+              <p className="text-sm text-stone-500 leading-relaxed">{item.desc}</p>
             </div>
-            <div>
-              <div className="mb-3 text-orange-500"><ShieldCheck size={28} /></div>
-              <div className="text-xs text-stone-300 uppercase tracking-[0.2em] mb-3">Step 3</div>
-              <div className="text-base font-medium text-stone-900 mb-2 tracking-wide">Fill Out & Validate</div>
-              <div className="text-sm text-stone-500 leading-relaxed">
-                Real-time validation against actual regulations. Catches mistakes before you submit and pay.
-              </div>
-            </div>
-          </div>
-
-          {/* Comparison */}
-          <div className="grid sm:grid-cols-2 gap-4 mt-8">
-            <div className="p-6 border border-stone-200 bg-stone-50/50 rounded-lg">
-              <div className="text-xs text-red-400 uppercase tracking-[0.2em] mb-3 font-medium">Without PlatePass</div>
-              <ul className="space-y-2 text-sm text-stone-500 leading-relaxed line-through decoration-stone-300">
-                <li>• Consultant: $5,000–$25,000</li>
-                <li>• Lawyer: $5,000–$15,000</li>
-                <li>• Your time: 80–120 hours of research</li>
-                <li>• Still miss things and get denied</li>
-              </ul>
-            </div>
-            <div className="p-6 border-2 border-orange-400 bg-orange-50/40 rounded-lg">
-              <div className="text-xs text-orange-600 uppercase tracking-[0.2em] mb-3 font-medium">With PlatePass</div>
-              <ul className="space-y-2 text-sm text-stone-600 leading-relaxed font-medium">
-                <li>✓ Free — 2 minutes</li>
-                <li>✓ Every permit identified automatically</li>
-                <li>✓ Real-time validation against actual code</li>
-                <li>✓ Catches $13,800 mistakes before you make them</li>
-              </ul>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
@@ -263,6 +251,16 @@ export default function Landing({ navigate }) {
         @keyframes scroll {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
+        }
+        @keyframes scrollCards {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-scroll-cards {
+          animation: scrollCards 25s linear infinite;
+        }
+        .animate-scroll-cards:hover {
+          animation-play-state: paused;
         }
       `}</style>
 
