@@ -7,7 +7,7 @@ LANDLORD: Valencia Street Properties LLC
 TENANT: Nori Ramen LLC (DBA "Nori")
 
 PREMISES:
-Address: 742 Valencia Street, San Francisco, CA 94110
+Address: 3101 24th Street, San Francisco, CA 94110
 Suite: Ground Floor
 Total Square Footage: 2,400 sq ft
   - Kitchen/Back of House: 800 sq ft
@@ -63,10 +63,10 @@ coverage of $1,000,000 per occurrence and $2,000,000 aggregate, naming
 Landlord as additional insured.
 
 PROXIMITY DISCLOSURE:
-Landlord discloses that the nearest school (Buena Vista Horace Mann K-8) 
-is located approximately 0.4 miles (2,100 feet) from the Premises. The 
-nearest church (St. Paul's Lutheran) is approximately 0.3 miles (1,580 feet) 
-from the Premises.
+Landlord discloses that Buena Vista Horace Mann K-8 Community School is 
+located approximately 450 feet from the Premises. César Chávez Elementary 
+is approximately 520 feet from the Premises. St. Peter's Catholic Church 
+is approximately 380 feet from the Premises.
 
 ENTITY INFORMATION:
 Tenant Entity: Nori Ramen LLC
