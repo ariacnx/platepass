@@ -4,11 +4,16 @@ import SmartStart from './components/SmartStart'
 import Interview from './components/Interview'
 import Dashboard from './components/Dashboard'
 import PermitForm from './components/PermitForm'
+import { prefillPermitForms } from './utils/permitPrefill'
 
 export default function App() {
-  const [page, setPage] = useState('landing') // landing | smart | interview | dashboard | permit
+  const [page, setPage] = useState('landing')
   const [answers, setAnswers] = useState({})
+  const [extractedData, setExtractedData] = useState({}) // raw AI extraction (includes Level 2 fields)
   const [selectedPermit, setSelectedPermit] = useState(null)
+
+  // Compute prefilled form data for all permits
+  const permitForms = prefillPermitForms(answers, extractedData)
 
   const navigate = (p, data) => {
     if (p === 'permit') setSelectedPermit(data?.permit)
@@ -23,6 +28,8 @@ export default function App() {
         <SmartStart
           answers={answers}
           setAnswers={setAnswers}
+          extractedData={extractedData}
+          setExtractedData={setExtractedData}
           navigate={navigate}
         />
       )}
@@ -36,6 +43,7 @@ export default function App() {
       {page === 'dashboard' && (
         <Dashboard
           answers={answers}
+          permitForms={permitForms}
           navigate={navigate}
         />
       )}
@@ -43,6 +51,7 @@ export default function App() {
         <PermitForm
           permit={selectedPermit}
           answers={answers}
+          prefillData={permitForms[selectedPermit.id] || {}}
           navigate={navigate}
         />
       )}

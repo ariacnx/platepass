@@ -1,8 +1,14 @@
 import { useState, useCallback } from 'react'
 
-export default function PermitForm({ permit, answers, navigate }) {
-  const [formData, setFormData] = useState({})
-  const [validationResults, setValidationResults] = useState([])
+export default function PermitForm({ permit, answers, prefillData = {}, navigate }) {
+  const [formData, setFormData] = useState(prefillData)
+  const [validationResults, setValidationResults] = useState(() => {
+    // Run initial validation on prefilled data
+    if (Object.keys(prefillData).length > 0) {
+      return validatePermit(permit, prefillData)
+    }
+    return []
+  })
 
   const updateField = useCallback((fieldId, value) => {
     setFormData(prev => {

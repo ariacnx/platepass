@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react'
 import { INTERVIEW_QUESTIONS } from '../data/permitDatabase'
+import { ENHANCED_EXTRACT_PROMPT } from '../utils/permitPrefill'
 
-export default function SmartStart({ answers, setAnswers, navigate }) {
+export default function SmartStart({ answers, setAnswers, extractedData, setExtractedData, navigate }) {
   const [mode, setMode] = useState(null) // null | 'voice' | 'upload' | 'type'
   const [isProcessing, setIsProcessing] = useState(false)
   const [isRecording, setIsRecording] = useState(false)
@@ -21,9 +22,9 @@ export default function SmartStart({ answers, setAnswers, navigate }) {
       return `- ${q.id}: ${q.question}${opts ? ` (options: ${opts})` : ` (type: ${q.type})`}`
     }).join('\n')
 
-    const prompt = `You are PlatePass, a restaurant permit assistant. Extract structured data from the user's description of their restaurant plans.
+    const prompt = `${ENHANCED_EXTRACT_PROMPT}
 
-Here are the fields to extract:
+Interview field options for Level 1:
 ${questionContext}
 
 User's description:
@@ -31,9 +32,7 @@ ${text}
 
 ${fileContents ? `\nDocument contents:\n${fileContents}` : ''}
 
-Return a JSON object mapping field IDs to values. For select fields, match to the closest valid option value exactly. For text/number fields, extract the value directly. Only include fields you can confidently extract. Example:
-{"restaurantName": "Aria's Ramen", "city": "San Francisco, CA", "situation": "opening-new", "foodType": "full-service", "servesAlcohol": "Yes", "seatingCount": "40"}
-
+For Level 1 select fields, match to the closest valid option value exactly.
 Return ONLY the JSON object, no other text.`
 
     try {
@@ -233,6 +232,7 @@ Return ONLY the JSON object, no other text.`
   const applyAndContinue = () => {
     if (extractedData) {
       setAnswers(prev => ({ ...prev, ...extractedData }))
+      setExtractedData(prev => ({ ...prev, ...extractedData }))
     }
     navigate('dashboard')
   }
@@ -241,6 +241,7 @@ Return ONLY the JSON object, no other text.`
   const applyAndReview = () => {
     if (extractedData) {
       setAnswers(prev => ({ ...prev, ...extractedData }))
+      setExtractedData(prev => ({ ...prev, ...extractedData }))
     }
     navigate('interview')
   }

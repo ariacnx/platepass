@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { PERMITS } from '../data/permitDatabase'
 
-export default function Dashboard({ answers, navigate }) {
+export default function Dashboard({ answers, permitForms = {}, navigate }) {
   const [completedPermits, setCompletedPermits] = useState({})
 
   const neededPermits = useMemo(() => {
@@ -110,11 +110,31 @@ export default function Dashboard({ answers, navigate }) {
                 <span className="text-stone-200">•</span>
                 <span>{permit.timeline}</span>
               </div>
-              <div className="mt-3 text-xs text-stone-300 leading-relaxed line-clamp-2">
-                {permit.description}
-              </div>
+              {/* Show pre-fill status */}
+              {(() => {
+                const prefilled = permitForms[permit.id] || {}
+                const filledCount = Object.values(prefilled).filter(v => v).length
+                const totalFields = permit.formFields.length
+                if (filledCount > 0) {
+                  return (
+                    <div className="mt-3 flex items-center gap-2">
+                      <div className="flex-1 h-1 bg-stone-100 rounded">
+                        <div className="h-full bg-emerald-400 rounded transition-all" style={{ width: `${(filledCount / totalFields) * 100}%` }} />
+                      </div>
+                      <span className="text-[10px] text-emerald-500 uppercase tracking-[0.15em]">
+                        {filledCount}/{totalFields} filled
+                      </span>
+                    </div>
+                  )
+                }
+                return (
+                  <div className="mt-3 text-xs text-stone-300 leading-relaxed line-clamp-2">
+                    {permit.description}
+                  </div>
+                )
+              })()}
               <div className="mt-3 text-[10px] text-stone-900 uppercase tracking-[0.2em] opacity-0 group-hover:opacity-100 transition-opacity border-b border-stone-900 inline-block pb-0.5">
-                Fill Application →
+                {Object.values(permitForms[permit.id] || {}).filter(v => v).length > 0 ? 'Review & Complete →' : 'Fill Application →'}
               </div>
             </button>
           ))}
