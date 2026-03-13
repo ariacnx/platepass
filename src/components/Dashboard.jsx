@@ -32,7 +32,7 @@ export default function Dashboard({ answers, permitForms = {}, navigate }) {
       <div className="mb-12 animate-fade-in" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
         <button
           onClick={() => navigate('interview')}
-          className="text-[10px] text-stone-400 hover:text-stone-900 uppercase tracking-[0.2em] mb-8 cursor-pointer transition-colors"
+          className="text-[10px] text-stone-500 hover:text-stone-900 uppercase tracking-[0.2em] mb-8 cursor-pointer transition-colors"
         >
           ← Edit Answers
         </button>
@@ -40,7 +40,7 @@ export default function Dashboard({ answers, permitForms = {}, navigate }) {
         <h1 className="text-3xl md:text-4xl font-light text-stone-900 tracking-wide">
           {answers.restaurantName || 'Your Restaurant'}
         </h1>
-        <p className="text-[10px] text-stone-400 uppercase tracking-[0.2em] mt-2">
+        <p className="text-[10px] text-stone-500 uppercase tracking-[0.2em] mt-2">
           {answers.city || 'Location not set'}
         </p>
       </div>
@@ -48,21 +48,21 @@ export default function Dashboard({ answers, permitForms = {}, navigate }) {
       {/* Summary */}
       <div className="grid sm:grid-cols-3 gap-8 mb-16 animate-fade-in border-b border-stone-200 pb-12">
         <div>
-          <div className="text-[10px] text-stone-400 uppercase tracking-[0.2em] mb-2">Permits Required</div>
+          <div className="text-[10px] text-stone-500 uppercase tracking-[0.2em] mb-2">Permits Required</div>
           <div className="text-3xl font-light text-stone-900">{neededPermits.length}</div>
           {maybePermits.length > 0 && (
             <div className="text-[10px] text-stone-300 uppercase tracking-[0.2em] mt-1">+ {maybePermits.length} conditional</div>
           )}
         </div>
         <div>
-          <div className="text-[10px] text-stone-400 uppercase tracking-[0.2em] mb-2">Estimated Cost</div>
+          <div className="text-[10px] text-stone-500 uppercase tracking-[0.2em] mb-2">Estimated Cost</div>
           <div className="text-3xl font-light text-stone-900">
             ${totalCostMin.toLocaleString()} – ${totalCostMax.toLocaleString()}
           </div>
           <div className="text-[10px] text-stone-300 uppercase tracking-[0.2em] mt-1">permit fees only</div>
         </div>
         <div>
-          <div className="text-[10px] text-stone-400 uppercase tracking-[0.2em] mb-2">Timeline</div>
+          <div className="text-[10px] text-stone-500 uppercase tracking-[0.2em] mb-2">Timeline</div>
           <div className="text-3xl font-light text-stone-900">
             {answers.servesAlcohol === 'Yes' ? '3–6 mo' : '2–3 mo'}
           </div>
@@ -74,7 +74,7 @@ export default function Dashboard({ answers, permitForms = {}, navigate }) {
 
       {/* Savings note */}
       <div className="mb-12 p-6 border border-stone-200 animate-fade-in">
-        <div className="text-[10px] text-stone-400 uppercase tracking-[0.2em] mb-2">Without PlatePass</div>
+        <div className="text-[10px] text-stone-500 uppercase tracking-[0.2em] mb-2">Without PlatePass</div>
         <p className="text-sm text-stone-500 font-light leading-relaxed">
           Restaurant consultant: $5,000–$25,000. Lawyer: $5,000–$15,000. Your time: 80–120 hours of research.
         </p>
@@ -82,7 +82,7 @@ export default function Dashboard({ answers, permitForms = {}, navigate }) {
 
       {/* Required permits */}
       <div className="mb-12">
-        <div className="text-[10px] text-stone-400 uppercase tracking-[0.3em] mb-6">
+        <div className="text-[10px] text-stone-500 uppercase tracking-[0.3em] mb-6">
           Required Permits ({neededPermits.length})
         </div>
         <div className="grid sm:grid-cols-2 gap-4">
@@ -99,13 +99,13 @@ export default function Dashboard({ answers, permitForms = {}, navigate }) {
                   <span className="text-sm font-medium text-stone-900 tracking-wide">{permit.name}</span>
                 </div>
                 {completedPermits[permit.id] && (
-                  <span className="text-stone-400 text-xs">✓</span>
+                  <span className="text-stone-500 text-xs">✓</span>
                 )}
               </div>
-              <div className="text-[10px] text-stone-400 uppercase tracking-[0.2em] mb-2">
+              <div className="text-[10px] text-stone-500 uppercase tracking-[0.2em] mb-2">
                 {permit.agency}
               </div>
-              <div className="flex items-center gap-4 text-[10px] text-stone-400 uppercase tracking-[0.2em]">
+              <div className="flex items-center gap-4 text-[10px] text-stone-500 uppercase tracking-[0.2em]">
                 <span>${permit.cost.min}–${permit.cost.max}</span>
                 <span className="text-stone-200">•</span>
                 <span>{permit.timeline}</span>
@@ -144,7 +144,7 @@ export default function Dashboard({ answers, permitForms = {}, navigate }) {
       {/* Maybe permits */}
       {maybePermits.length > 0 && (
         <div className="mb-12">
-          <div className="text-[10px] text-stone-400 uppercase tracking-[0.3em] mb-6">
+          <div className="text-[10px] text-stone-500 uppercase tracking-[0.3em] mb-6">
             May Be Required ({maybePermits.length})
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
@@ -160,7 +160,7 @@ export default function Dashboard({ answers, permitForms = {}, navigate }) {
                   <span className="text-stone-200">•</span>
                   <span>{permit.timeline}</span>
                 </div>
-                <div className="mt-2 text-[10px] text-stone-400 italic">
+                <div className="mt-2 text-[10px] text-stone-500 italic">
                   Update your answers to confirm
                 </div>
               </div>
@@ -171,7 +171,7 @@ export default function Dashboard({ answers, permitForms = {}, navigate }) {
 
       {/* Pro tips */}
       <div className="border-t border-stone-200 pt-12 mb-12">
-        <div className="text-[10px] text-stone-400 uppercase tracking-[0.3em] mb-6">Pro Tips</div>
+        <div className="text-[10px] text-stone-500 uppercase tracking-[0.3em] mb-6">Pro Tips</div>
         <div className="space-y-4 text-sm text-stone-500 font-light leading-relaxed">
           <p>
             <span className="text-stone-900 font-normal">Start with the liquor license</span> — it takes the longest (45–90 days). Everything else can run in parallel.

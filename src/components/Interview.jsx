@@ -39,7 +39,7 @@ export default function Interview({ answers, setAnswers, navigate }) {
           />
         </div>
         <div className="max-w-2xl mx-auto px-6 py-4 flex items-center justify-between">
-          <button onClick={back} className="text-stone-400 hover:text-stone-900 text-[10px] uppercase tracking-[0.2em] cursor-pointer transition-colors">
+          <button onClick={back} className="text-stone-500 hover:text-stone-900 text-[10px] uppercase tracking-[0.2em] cursor-pointer transition-colors">
             ← Back
           </button>
           <span className="text-[10px] text-stone-300 uppercase tracking-[0.2em]">{currentQ + 1} of {total}</span>
@@ -54,7 +54,7 @@ export default function Interview({ answers, setAnswers, navigate }) {
             {q.question}
           </h2>
           {q.subtitle && (
-            <p className="text-sm text-stone-400 mb-10 leading-relaxed">{q.subtitle}</p>
+            <p className="text-sm text-stone-500 mb-10 leading-relaxed">{q.subtitle}</p>
           )}
 
           {/* Text input */}

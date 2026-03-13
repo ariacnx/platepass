@@ -25,7 +25,7 @@ export default function PermitForm({ permit, answers, prefillData = {}, navigate
       <div className="mb-10 animate-fade-in" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
         <button
           onClick={() => navigate('dashboard')}
-          className="text-[10px] text-stone-400 hover:text-stone-900 uppercase tracking-[0.2em] mb-8 cursor-pointer transition-colors"
+          className="text-[10px] text-stone-500 hover:text-stone-900 uppercase tracking-[0.2em] mb-8 cursor-pointer transition-colors"
         >
           ← Back to Permits
         </button>
@@ -34,11 +34,11 @@ export default function PermitForm({ permit, answers, prefillData = {}, navigate
           <span className="text-3xl">{permit.emoji}</span>
           <div>
             <h1 className="text-2xl md:text-3xl font-light text-stone-900 tracking-wide">{permit.name}</h1>
-            <p className="text-[10px] text-stone-400 uppercase tracking-[0.2em] mt-1">{permit.agency}</p>
+            <p className="text-[10px] text-stone-500 uppercase tracking-[0.2em] mt-1">{permit.agency}</p>
           </div>
         </div>
 
-        <div className="flex gap-4 mt-4 text-[10px] text-stone-400 uppercase tracking-[0.2em]">
+        <div className="flex gap-4 mt-4 text-[10px] text-stone-500 uppercase tracking-[0.2em]">
           <span>${permit.cost.min}–${permit.cost.max}</span>
           <span className="text-stone-200">•</span>
           <span>{permit.timeline}</span>
@@ -51,7 +51,7 @@ export default function PermitForm({ permit, answers, prefillData = {}, navigate
         {/* Form */}
         <div className="lg:col-span-3 animate-fade-in">
           <div className="border border-stone-200 p-8">
-            <div className="text-[10px] text-stone-400 uppercase tracking-[0.3em] mb-8">Application Details</div>
+            <div className="text-[10px] text-stone-500 uppercase tracking-[0.3em] mb-8">Application Details</div>
 
             {permit.formFields.map(field => (
               <div key={field.id} className="mb-6">
@@ -128,7 +128,7 @@ export default function PermitForm({ permit, answers, prefillData = {}, navigate
         <div className="lg:col-span-2">
           <div className="sticky top-6 space-y-6 animate-fade-in">
             <div className="border border-stone-200 p-6">
-              <div className="text-[10px] text-stone-400 uppercase tracking-[0.3em] mb-4 flex items-center gap-2">
+              <div className="text-[10px] text-stone-500 uppercase tracking-[0.3em] mb-4 flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-stone-900 animate-pulse" />
                 Live Validation — {permit.rules.length} Rules
               </div>

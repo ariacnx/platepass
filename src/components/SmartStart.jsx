@@ -2,12 +2,12 @@ import { useState, useRef } from 'react'
 import { INTERVIEW_QUESTIONS } from '../data/permitDatabase'
 import { ENHANCED_EXTRACT_PROMPT } from '../utils/permitPrefill'
 
-export default function SmartStart({ answers, setAnswers, extractedData, setExtractedData, navigate }) {
+export default function SmartStart({ answers, setAnswers, extractedData: parentExtracted, setExtractedData: setParentExtracted, navigate }) {
   const [mode, setMode] = useState(null) // null | 'voice' | 'upload' | 'type'
   const [isProcessing, setIsProcessing] = useState(false)
   const [isRecording, setIsRecording] = useState(false)
   const [textInput, setTextInput] = useState('')
-  const [extractedData, setExtractedData] = useState(null)
+  const [extractedData, setExtractedDataLocal] = useState(null)
   const [uploadedFiles, setUploadedFiles] = useState([])
   const mediaRecorderRef = useRef(null)
   const chunksRef = useRef([])
@@ -224,7 +224,7 @@ Return ONLY the JSON object, no other text.`
   }
 
   const showExtracted = (extracted) => {
-    setExtractedData(extracted)
+    setExtractedDataLocal(extracted)
     setIsProcessing(false)
   }
 
@@ -232,7 +232,7 @@ Return ONLY the JSON object, no other text.`
   const applyAndContinue = () => {
     if (extractedData) {
       setAnswers(prev => ({ ...prev, ...extractedData }))
-      setExtractedData(prev => ({ ...prev, ...extractedData }))
+      setParentExtracted(prev => ({ ...prev, ...extractedData }))
     }
     navigate('dashboard')
   }
@@ -241,7 +241,7 @@ Return ONLY the JSON object, no other text.`
   const applyAndReview = () => {
     if (extractedData) {
       setAnswers(prev => ({ ...prev, ...extractedData }))
-      setExtractedData(prev => ({ ...prev, ...extractedData }))
+      setParentExtracted(prev => ({ ...prev, ...extractedData }))
     }
     navigate('interview')
   }
@@ -274,14 +274,14 @@ Return ONLY the JSON object, no other text.`
   if (extractedData) {
     return (
       <div className="min-h-screen bg-white px-6 py-12 max-w-2xl mx-auto animate-fade-in">
-        <div className="text-xs text-stone-400 uppercase tracking-[0.3em] mb-8">
+        <div className="text-xs text-stone-500 uppercase tracking-[0.3em] mb-8">
           Smart Start
         </div>
 
         <h2 className="text-3xl font-light text-stone-900 tracking-wide mb-2">
           Here's what I found
         </h2>
-        <p className="text-base text-stone-400 mb-8">
+        <p className="text-base text-stone-500 mb-8">
           {filledCount} of {totalQuestions} fields auto-filled. Review and confirm.
         </p>
 
@@ -307,7 +307,7 @@ Return ONLY the JSON object, no other text.`
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-xs text-stone-400 uppercase tracking-[0.15em] mb-1">
+                    <div className="text-xs text-stone-500 uppercase tracking-[0.15em] mb-1">
                       {q.question}
                     </div>
                     {isFilled ? (
@@ -342,8 +342,8 @@ Return ONLY the JSON object, no other text.`
         </div>
 
         <button
-          onClick={() => { setExtractedData(null); setMode(null) }}
-          className="mt-4 text-xs text-stone-400 hover:text-stone-700 uppercase tracking-[0.2em] cursor-pointer"
+          onClick={() => { setExtractedDataLocal(null); setMode(null) }}
+          className="mt-4 text-xs text-stone-500 hover:text-stone-700 uppercase tracking-[0.2em] cursor-pointer"
         >
           ← Start over
         </button>
@@ -360,7 +360,7 @@ Return ONLY the JSON object, no other text.`
           <h2 className="text-2xl font-light text-stone-900 tracking-wide mb-2">
             Analyzing your information...
           </h2>
-          <p className="text-base text-stone-400">
+          <p className="text-base text-stone-500">
             Extracting restaurant details and matching to permit requirements
           </p>
         </div>
@@ -373,7 +373,7 @@ Return ONLY the JSON object, no other text.`
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-6">
         <div className="text-center max-w-lg animate-fade-in">
-          <button onClick={() => setMode(null)} className="text-xs text-stone-400 hover:text-stone-700 uppercase tracking-[0.2em] mb-8 cursor-pointer">
+          <button onClick={() => setMode(null)} className="text-xs text-stone-500 hover:text-stone-700 uppercase tracking-[0.2em] mb-8 cursor-pointer">
             ← Back
           </button>
 
@@ -383,7 +383,7 @@ Return ONLY the JSON object, no other text.`
               <h2 className="text-2xl font-light text-stone-900 tracking-wide mb-4">
                 Tell us about your restaurant
               </h2>
-              <div className="text-sm text-stone-400 mb-8 leading-relaxed text-left p-5 border border-stone-200 bg-stone-50">
+              <div className="text-sm text-stone-500 mb-8 leading-relaxed text-left p-5 border border-stone-200 bg-stone-50">
                 <div className="text-xs text-stone-500 uppercase tracking-[0.2em] mb-3">Try saying something like:</div>
                 <p className="italic">"I'm opening a ramen restaurant called Nori on Valencia Street in San Francisco. 
                 About 40 seats, full bar, taking over an old retail space. Planning to have outdoor seating 
@@ -402,7 +402,7 @@ Return ONLY the JSON object, no other text.`
               <h2 className="text-2xl font-light text-stone-900 tracking-wide mb-4">
                 Listening...
               </h2>
-              <p className="text-base text-stone-400 mb-8">
+              <p className="text-base text-stone-500 mb-8">
                 Tell us everything about your restaurant plans
               </p>
               <button
@@ -423,14 +423,14 @@ Return ONLY the JSON object, no other text.`
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-6">
         <div className="max-w-lg w-full animate-fade-in">
-          <button onClick={() => setMode(null)} className="text-xs text-stone-400 hover:text-stone-700 uppercase tracking-[0.2em] mb-8 cursor-pointer">
+          <button onClick={() => setMode(null)} className="text-xs text-stone-500 hover:text-stone-700 uppercase tracking-[0.2em] mb-8 cursor-pointer">
             ← Back
           </button>
 
           <h2 className="text-2xl font-light text-stone-900 tracking-wide mb-2">
             Describe your restaurant
           </h2>
-          <p className="text-sm text-stone-400 mb-6">
+          <p className="text-sm text-stone-500 mb-6">
             Include name, location, type of food, seating, alcohol plans, any construction needed — as much as you know.
           </p>
 
@@ -468,14 +468,14 @@ Return ONLY the JSON object, no other text.`
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-6">
         <div className="max-w-lg w-full animate-fade-in">
-          <button onClick={() => setMode(null)} className="text-xs text-stone-400 hover:text-stone-700 uppercase tracking-[0.2em] mb-8 cursor-pointer">
+          <button onClick={() => setMode(null)} className="text-xs text-stone-500 hover:text-stone-700 uppercase tracking-[0.2em] mb-8 cursor-pointer">
             ← Back
           </button>
 
           <h2 className="text-2xl font-light text-stone-900 tracking-wide mb-2">
             Upload your documents
           </h2>
-          <p className="text-sm text-stone-400 mb-8">
+          <p className="text-sm text-stone-500 mb-8">
             Lease agreement, business registration, floor plans, menu — anything that describes your restaurant.
           </p>
 
@@ -516,7 +516,7 @@ Return ONLY the JSON object, no other text.`
 
           {/* Also allow adding a description */}
           <div className="mt-8">
-            <label className="text-xs text-stone-400 uppercase tracking-[0.2em] block mb-2">
+            <label className="text-xs text-stone-500 uppercase tracking-[0.2em] block mb-2">
               Add context (optional)
             </label>
             <textarea
@@ -536,18 +536,18 @@ Return ONLY the JSON object, no other text.`
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6">
       <div className="max-w-xl w-full text-center animate-fade-in">
-        <button onClick={() => navigate('landing')} className="text-xs text-stone-400 hover:text-stone-700 uppercase tracking-[0.2em] mb-12 cursor-pointer">
+        <button onClick={() => navigate('landing')} className="text-xs text-stone-500 hover:text-stone-700 uppercase tracking-[0.2em] mb-12 cursor-pointer">
           ← Back
         </button>
 
-        <div className="text-xs text-stone-400 uppercase tracking-[0.3em] mb-6">
+        <div className="text-xs text-stone-500 uppercase tracking-[0.3em] mb-6 font-medium">
           How would you like to start?
         </div>
 
         <h2 className="text-3xl md:text-4xl font-light text-stone-900 tracking-wide mb-4">
           Tell us about your restaurant
         </h2>
-        <p className="text-base text-stone-400 mb-12">
+        <p className="text-base text-stone-500 mb-12">
           Choose how you'd like to share your information. We'll auto-fill everything we can.
         </p>
 
@@ -558,7 +558,7 @@ Return ONLY the JSON object, no other text.`
           >
             <div className="text-4xl mb-4">🎙️</div>
             <div className="text-base font-medium text-stone-900 mb-2">Voice</div>
-            <div className="text-sm text-stone-400">Just talk. We'll extract everything.</div>
+            <div className="text-sm text-stone-500">Just talk. We'll extract everything.</div>
           </button>
 
           <button
@@ -567,7 +567,7 @@ Return ONLY the JSON object, no other text.`
           >
             <div className="text-4xl mb-4">📎</div>
             <div className="text-base font-medium text-stone-900 mb-2">Upload</div>
-            <div className="text-sm text-stone-400">Drop your lease, plans, or docs.</div>
+            <div className="text-sm text-stone-500">Drop your lease, plans, or docs.</div>
           </button>
 
           <button
@@ -576,7 +576,7 @@ Return ONLY the JSON object, no other text.`
           >
             <div className="text-4xl mb-4">⌨️</div>
             <div className="text-base font-medium text-stone-900 mb-2">Type</div>
-            <div className="text-sm text-stone-400">Describe your plans in your own words.</div>
+            <div className="text-sm text-stone-500">Describe your plans in your own words.</div>
           </button>
         </div>
 
@@ -584,7 +584,7 @@ Return ONLY the JSON object, no other text.`
         <div className="border-t border-stone-100 pt-8">
           <button
             onClick={() => navigate('interview')}
-            className="text-sm text-stone-400 hover:text-stone-900 uppercase tracking-[0.2em] cursor-pointer transition-colors border-b border-stone-300 hover:border-stone-900 pb-0.5"
+            className="text-sm text-stone-500 hover:text-stone-900 uppercase tracking-[0.2em] cursor-pointer transition-colors border-b border-stone-300 hover:border-stone-900 pb-0.5"
           >
             Or fill out the form manually →
           </button>

@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlatePass Demo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #fafaf9; overflow: hidden; height: 100vh; }
+
+  .demo-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Scenes */
+  .scene { display: none; animation: fadeIn 0.5s ease; }
+  .scene.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes typewriter {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  @keyframes blink {
+    50% { border-color: transparent; }
+  }
+
+  @keyframes popIn {
+    0% { opacity: 0; transform: scale(0.8) translateY(8px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  @keyframes slideRight {
+    from { width: 0; }
+    to { width: var(--target-width); }
+  }
+
+  .label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: #57534e;
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-size: 36px;
+    font-weight: 300;
+    color: #1c1917;
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+    color: #78716c;
+    margin-bottom: 32px;
+  }
+
+  /* Upload zone */
+  .upload-zone {
+    border: 2px dashed #d6d3d1;
+    padding: 60px;
+    text-align: center;
+    margin-bottom: 24px;
+    transition: all 0.3s;
+  }
+
+  .upload-zone.dropping {
+    border-color: #1c1917;
+    background: #f5f5f4;
+  }
+
+  .upload-zone .icon { font-size: 40px; margin-bottom: 12px; }
+  .upload-zone p { color: #78716c; font-size: 15px; }
+
+  .file-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #f5f5f4;
+    border: 1px solid #e7e5e4;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: #57534e;
+    margin-top: 12px;
+    animation: popIn 0.3s ease;
+  }
+
+  /* Processing */
+  .processing {
+    text-align: center;
+    padding: 80px 0;
+  }
+
+  .processing .spinner {
+    font-size: 48px;
+    animation: spin 1.5s linear infinite;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .processing h2 {
+    font-size: 28px;
+    font-weight: 300;
+    color: #1c1917;
+    margin-bottom: 8px;
+  }
+
+  .processing p { color: #78716c; font-size: 15px; }
+
+  /* Extracted fields */
+  .field-row {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    border-left: 3px solid #d6d3d1;
+    margin-bottom: 6px;
+    opacity: 0;
+    transition: all 0.4s ease;
+  }
+
+  .field-row.filled {
+    border-left-color: #22c55e;
+    background: rgba(34, 197, 94, 0.04);
+    opacity: 1;
+  }
+
+  .field-row.empty {
+    border-left-color: #e7e5e4;
+    opacity: 1;
+  }
+
+  .field-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #a8a29e;
+    min-width: 200px;
+  }
+
+  .field-value {
+    font-size: 15px;
+    color: #1c1917;
+    font-weight: 500;
+    flex: 1;
+  }
+
+  .field-check {
+    color: #22c55e;
+    font-size: 18px;
+    margin-left: 12px;
+  }
+
+  .field-miss {
+    font-size: 13px;
+    color: #d6d3d1;
+    font-style: italic;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    height: 3px;
+    background: #f5f5f4;
+    margin-bottom: 32px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: #1c1917;
+    transition: width 0.6s ease;
+  }
+
+  /* Dashboard */
+  .permit-card {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    border: 1px solid #e7e5e4;
+    margin-bottom: 8px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.3s ease;
+  }
+
+  .permit-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .permit-emoji { font-size: 24px; margin-right: 16px; }
+  .permit-name { font-size: 15px; font-weight: 500; color: #1c1917; flex: 1; }
+  .permit-meta { font-size: 11px; color: #78716c; text-transform: uppercase; letter-spacing: 0.15em; }
+
+  .permit-progress {
+    width: 80px;
+    height: 3px;
+    background: #f5f5f4;
+    margin-left: 16px;
+    border-radius: 2px;
+  }
+
+  .permit-progress-fill {
+    height: 100%;
+    background: #22c55e;
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  .permit-fill-label {
+    font-size: 10px;
+    color: #22c55e;
+    margin-left: 8px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* Validation alert */
+  .validation {
+    padding: 16px 20px;
+    border-left: 3px solid #dc2626;
+    background: rgba(220, 38, 38, 0.04);
+    margin-top: 12px;
+    opacity: 0;
+    animation: popIn 0.4s ease forwards;
+  }
+
+  .validation .tag {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #dc2626;
+    margin-bottom: 6px;
+  }
+
+  .validation .msg {
+    font-size: 14px;
+    color: #57534e;
+    line-height: 1.5;
+  }
+
+  .validation .cite {
+    font-size: 11px;
+    color: #a8a29e;
+    font-style: italic;
+    margin-top: 8px;
+  }
+
+  .validation.warning {
+    border-left-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.04);
+  }
+
+  .validation.warning .tag { color: #f59e0b; }
+
+  /* Stats row */
+  .stats-row {
+    display: flex;
+    gap: 32px;
+    margin: 24px 0;
+    padding: 20px 24px;
+    background: #fff;
+    border: 1px solid #e7e5e4;
+  }
+
+  .stat-num {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1c1917;
+    line-height: 1;
+  }
+
+  .stat-label2 {
+    font-size: 11px;
+    color: #78716c;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+
+  /* Form field inline */
+  .form-field {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f5f5f4;
+  }
+
+  .form-field .fl {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #78716c;
+    width: 280px;
+  }
+
+  .form-field .fv {
+    font-size: 15px;
+    color: #1c1917;
+    flex: 1;
+  }
+
+  .form-field .fv.prefilled {
+    color: #1c1917;
+    background: rgba(34, 197, 94, 0.06);
+    padding: 2px 8px;
+    border-radius: 2px;
+  }
+
+  .form-field select {
+    font-family: inherit;
+    font-size: 15px;
+    border: none;
+    border-bottom: 1px solid #d6d3d1;
+    padding: 4px 0;
+    background: transparent;
+    color: #1c1917;
+    outline: none;
+    cursor: pointer;
+  }
+
+  /* Bottom bar */
+  .bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1c1917;
+    color: #fff;
+    padding: 12px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+  }
+
+  .bottom-bar .timer {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .bottom-bar button {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: #fff;
+    padding: 6px 16px;
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .saved-callout {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    background: #fff;
+    border: 2px solid #dc2626;
+    padding: 16px 24px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #dc2626;
+    animation: popIn 0.5s ease;
+    z-index: 100;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+  }
+
+  .saved-callout .amount { font-size: 28px; display: block; margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<div class="demo-container" id="demo">
+
+  <!-- SCENE 1: Upload -->
+  <div class="scene active" id="scene1">
+    <div class="label">Smart Start</div>
+    <h1>Tell us about your restaurant</h1>
+    <p class="subtitle">Drop your lease and we'll extract everything.</p>
+    <div class="upload-zone" id="dropzone">
+      <div class="icon">📎</div>
+      <p>Drop files here or click to browse</p>
+    </div>
+  </div>
+
+  <!-- SCENE 2: File dropped -->
+  <div class="scene" id="scene2">
+    <div class="label">Smart Start</div>
+    <h1>Tell us about your restaurant</h1>
+    <p class="subtitle">Drop your lease and we'll extract everything.</p>
+    <div class="upload-zone dropping">
+      <div class="icon">📎</div>
+      <p>Drop files here or click to browse</p>
+      <div class="file-tag">📄 sample-lease.txt — Nori Ramen LLC</div>
+    </div>
+  </div>
+
+  <!-- SCENE 3: Processing -->
+  <div class="scene" id="scene3">
+    <div class="processing">
+      <div class="spinner">🔍</div>
+      <h2>Analyzing your lease...</h2>
+      <p>Extracting restaurant details and matching to permit requirements</p>
+    </div>
+  </div>
+
+  <!-- SCENE 4: Extracted data -->
+  <div class="scene" id="scene4">
+    <div class="label">Smart Start</div>
+    <h1>Here's what we found</h1>
+    <p class="subtitle" id="field-counter">0 of 10 fields auto-filled</p>
+    <div class="progress-bar"><div class="progress-fill" id="progress" style="width: 0%"></div></div>
+    <div id="fields">
+      <div class="field-row" data-delay="0">
+        <span class="field-label">Restaurant Name</span>
+        <span class="field-value">Nori</span>
+        <span class="field-check">✓</span>
+      </div>
+      <div class="field-row" data-delay="100">
+        <span class="field-label">Location</span>
+        <span class="field-value">742 Valencia St, San Francisco, CA</span>
+        <span class="field-check">✓</span>
+      </div>
+      <div class="field-row" data-delay="200">
+        <span class="field-label">Situation</span>
+        <span class="field-value">Taking over existing space</span>
+        <span class="field-check">✓</span>
+      </div>
+      <div class="field-row" data-delay="300">
+        <span class="field-label">Food Type</span>
+        <span class="field-value">Full-service restaurant</span>
+        <span class="field-check">✓</span>
+      </div>
+      <div class="field-row" data-delay="400">
+        <span class="field-label">Serves Alcohol</span>
+        <span class="field-value">Yes — Type 47 (Full Liquor)</span>
+        <span class="field-check">✓</span>
+      </div>
+      <div class="field-row" data-delay="500">
+        <span class="field-label">Seating</span>
+        <span class="field-value">53 total (45 indoor + 8 outdoor)</span>
+        <span class="field-check">✓</span>
+      </div>
+      <div class="field-row" data-delay="600">
+        <span class="field-label">Outdoor Dining</span>
+        <span class="field-value">Sidewalk seating — 14ft sidewalk</span>
+        <span class="field-check">✓</span>
+      </div>
+      <div class="field-row" data-delay="700">
+        <span class="field-label">Construction</span>
+        <span class="field-value">Full renovation — retail to restaurant</span>
+        <span class="field-check">✓</span>
+      </div>
+      <div class="field-row" data-delay="800">
+        <span class="field-label">Signage</span>
+        <span class="field-value">Wall-mounted, illuminated</span>
+        <span class="field-check">✓</span>
+      </div>
+      <div class="field-row empty" data-delay="900">
+        <span class="field-label">Entertainment</span>
+        <span class="field-miss">Not detected — will ask during review</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 5: Dashboard -->
+  <div class="scene" id="scene5">
+    <div class="label">Your Permits</div>
+    <h1>Nori — 742 Valencia St, SF</h1>
+    <div class="stats-row">
+      <div><div class="stat-num">8</div><div class="stat-label2">Permits Required</div></div>
+      <div><div class="stat-num">$47,300–$89,500</div><div class="stat-label2">Estimated Cost</div></div>
+      <div><div class="stat-num">4–8 months</div><div class="stat-label2">Timeline</div></div>
+    </div>
+    <div id="permits">
+      <div class="permit-card" data-delay="0">
+        <span class="permit-emoji">📋</span>
+        <span class="permit-name">Business License</span>
+        <span class="permit-meta">$50–$500 · 1–2 weeks</span>
+        <div class="permit-progress"><div class="permit-progress-fill" style="width: 100%"></div></div>
+        <span class="permit-fill-label">5/5</span>
+      </div>
+      <div class="permit-card" data-delay="80">
+        <span class="permit-emoji">🏥</span>
+        <span class="permit-name">Health Permit</span>
+        <span class="permit-meta">$400–$1,000 · 2–4 weeks</span>
+        <div class="permit-progress"><div class="permit-progress-fill" style="width: 50%"></div></div>
+        <span class="permit-fill-label">3/6</span>
+      </div>
+      <div class="permit-card" data-delay="160">
+        <span class="permit-emoji">🍷</span>
+        <span class="permit-name">Liquor License (Type 47)</span>
+        <span class="permit-meta">$13,800 · 2–4 months</span>
+        <div class="permit-progress"><div class="permit-progress-fill" style="width: 50%"></div></div>
+        <span class="permit-fill-label">3/6</span>
+      </div>
+      <div class="permit-card" data-delay="240">
+        <span class="permit-emoji">🔥</span>
+        <span class="permit-name">Fire Department Permit</span>
+        <span class="permit-meta">$500–$2,000 · 2–4 weeks</span>
+        <div class="permit-progress"><div class="permit-progress-fill" style="width: 33%"></div></div>
+        <span class="permit-fill-label">2/6</span>
+      </div>
+      <div class="permit-card" data-delay="320">
+        <span class="permit-emoji">🏗️</span>
+        <span class="permit-name">Building Permit</span>
+        <span class="permit-meta">$5,000–$50,000 · 4–12 weeks</span>
+        <div class="permit-progress"><div class="permit-progress-fill" style="width: 75%"></div></div>
+        <span class="permit-fill-label">3/4</span>
+      </div>
+      <div class="permit-card" data-delay="400">
+        <span class="permit-emoji">☀️</span>
+        <span class="permit-name">Outdoor Dining Permit</span>
+        <span class="permit-meta">$200–$1,000 · 2–6 weeks</span>
+        <div class="permit-progress"><div class="permit-progress-fill" style="width: 60%"></div></div>
+        <span class="permit-fill-label">3/5</span>
+      </div>
+      <div class="permit-card" data-delay="480">
+        <span class="permit-emoji">🪧</span>
+        <span class="permit-name">Sign Permit</span>
+        <span class="permit-meta">$100–$500 · 1–3 weeks</span>
+        <div class="permit-progress"><div class="permit-progress-fill" style="width: 66%"></div></div>
+        <span class="permit-fill-label">2/3</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 6: Liquor License Detail + Validation -->
+  <div class="scene" id="scene6">
+    <div class="label">🍷 Liquor License — Type 47</div>
+    <h1>Application Details</h1>
+    <p class="subtitle">$13,800 · CA Dept of Alcoholic Beverage Control · 2–4 months</p>
+
+    <div class="form-field">
+      <span class="fl">License Type</span>
+      <span class="fv prefilled">Type 47 — Full Liquor (with meals)</span>
+    </div>
+    <div class="form-field">
+      <span class="fl">Near school / church (&lt;600ft)?</span>
+      <span class="fv" id="school-field">No</span>
+    </div>
+    <div class="form-field">
+      <span class="fl">Transferring existing license?</span>
+      <span class="fv prefilled">No — new license</span>
+    </div>
+    <div class="form-field">
+      <span class="fl">Staff RBS training</span>
+      <span class="fv" style="color: #a8a29e; font-style: italic;">Not filled yet</span>
+    </div>
+
+    <div id="validation-area"></div>
+  </div>
+
+  <!-- SCENE 7: Building Permit Validation -->
+  <div class="scene" id="scene7">
+    <div class="label">🏗️ Building Permit</div>
+    <h1>Application Details</h1>
+    <p class="subtitle">$5,000–$50,000 · City Building Department · 4–12 weeks</p>
+
+    <div class="form-field">
+      <span class="fl">Previous use of space</span>
+      <span class="fv prefilled">Retail / shop</span>
+    </div>
+    <div class="form-field">
+      <span class="fl">Construction scope</span>
+      <span class="fv prefilled">Full renovation / gut remodel</span>
+    </div>
+    <div class="form-field">
+      <span class="fl">Grease interceptor</span>
+      <span class="fv prefilled">Yes — per lease (50 GPM minimum)</span>
+    </div>
+    <div class="form-field">
+      <span class="fl">ADA compliant?</span>
+      <span class="fv prefilled">Yes — renovation includes ADA restrooms</span>
+    </div>
+
+    <div id="building-validation">
+      <div class="validation" style="animation-delay: 0.3s;">
+        <div class="tag">✗ Change of Occupancy Triggered</div>
+        <div class="msg">Converting from <strong>"Retail"</strong> to restaurant triggers a change of occupancy review. This may require <strong>seismic upgrade, full ADA renovation, and sprinkler installation. Budget $50,000–$200,000</strong> beyond your buildout costs.</div>
+        <div class="cite">IBC §3408 — Change of Occupancy; ADA Title III</div>
+      </div>
+      <div class="validation warning" style="animation-delay: 0.8s;">
+        <div class="tag">⚠ Grease Interceptor Sizing</div>
+        <div class="msg">50 GPM minimum per lease. City may require larger based on your menu — full-service with fryers typically needs 75+ GPM. Get a plumber assessment before breaking ground.</div>
+        <div class="cite">UPC §1014 — Grease Interceptors</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE 8: Punchline -->
+  <div class="scene" id="scene8">
+    <div style="text-align: center; padding: 60px 0;">
+      <p class="label" style="margin-bottom: 16px;">In 60 seconds, from one lease upload</p>
+      <h1 style="font-size: 48px; font-weight: 700; margin-bottom: 40px;">We just saved this restaurant</h1>
+      <div style="display: flex; justify-content: center; gap: 48px; margin-bottom: 48px;">
+        <div>
+          <div style="font-size: 56px; font-weight: 900; color: #dc2626;">$213,800</div>
+          <div style="font-size: 13px; color: #78716c; text-transform: uppercase; letter-spacing: 0.2em; margin-top: 8px;">in potential mistakes caught</div>
+        </div>
+        <div>
+          <div style="font-size: 56px; font-weight: 900; color: #1c1917;">6 months</div>
+          <div style="font-size: 13px; color: #78716c; text-transform: uppercase; letter-spacing: 0.2em; margin-top: 8px;">of delays prevented</div>
+        </div>
+      </div>
+      <div style="font-size: 24px; color: #57534e; font-weight: 300; font-style: italic; border-top: 1px solid #e7e5e4; padding-top: 32px;">
+        "Focus on the food. We handle the paperwork."
+      </div>
+      <div style="font-size: 48px; font-weight: 900; color: #1c1917; margin-top: 32px; letter-spacing: -0.02em;">PlatePass</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Bottom bar -->
+<div class="bottom-bar">
+  <span>PlatePass Demo</span>
+  <div style="display: flex; gap: 12px; align-items: center;">
+    <span class="timer" id="timer">0:00</span>
+    <button onclick="startAutoplay()" id="playBtn">▶ Auto-Play</button>
+    <button onclick="prevScene()">←</button>
+    <button onclick="nextScene()">→</button>
+  </div>
+</div>
+
+<script>
+  const scenes = document.querySelectorAll('.scene');
+  let current = 0;
+  let timerInterval;
+  let seconds = 0;
+
+  function showScene(n) {
+    scenes.forEach(s => s.classList.remove('active'));
+    scenes[n].classList.add('active');
+    current = n;
+
+    // Scene-specific animations
+    if (n === 3) animateFields();
+    if (n === 4) animatePermits();
+    if (n === 5) animateSchoolChange();
+  }
+
+  function nextScene() { if (current < scenes.length - 1) showScene(current + 1); }
+  function prevScene() { if (current > 0) showScene(current - 1); }
+
+  function animateFields() {
+    const fields = document.querySelectorAll('#fields .field-row');
+    const counter = document.getElementById('field-counter');
+    const progress = document.getElementById('progress');
+    let filled = 0;
+
+    fields.forEach((f, i) => {
+      const delay = parseInt(f.dataset.delay) + 200;
+      setTimeout(() => {
+        f.classList.add(f.classList.contains('empty') ? 'empty' : 'filled');
+        if (!f.classList.contains('empty')) filled++;
+        counter.textContent = `${filled} of 10 fields auto-filled`;
+        progress.style.width = `${(filled / 10) * 100}%`;
+      }, delay);
+    });
+  }
+
+  function animatePermits() {
+    const cards = document.querySelectorAll('#permits .permit-card');
+    cards.forEach((c, i) => {
+      setTimeout(() => c.classList.add('visible'), parseInt(c.dataset.delay) + 100);
+    });
+  }
+
+  function animateSchoolChange() {
+    const field = document.getElementById('school-field');
+    const area = document.getElementById('validation-area');
+
+    setTimeout(() => {
+      field.textContent = 'No';
+      field.className = 'fv prefilled';
+    }, 500);
+
+    setTimeout(() => {
+      field.textContent = 'Yes';
+      field.style.color = '#dc2626';
+      field.style.fontWeight = '700';
+      field.style.background = 'rgba(220,38,38,0.06)';
+      field.style.padding = '2px 8px';
+    }, 2000);
+
+    setTimeout(() => {
+      area.innerHTML = `
+        <div class="validation">
+          <div class="tag">🚨 ✗ CRITICAL — Application Will Be Denied</div>
+          <div class="msg">Location is within <strong>600ft of a school or church</strong>. Liquor license will be <strong>DENIED</strong>. The <strong>$13,800 application fee is non-refundable</strong>. Do NOT submit this application. Consider a different location or apply for an exception (rarely granted).</div>
+          <div class="cite">CA Business & Professions Code §23789 — Premises Near Schools</div>
+        </div>
+      `;
+    }, 2800);
+  }
+
+  // Auto-play
+  function startAutoplay() {
+    const btn = document.getElementById('playBtn');
+    btn.textContent = '⏸ Playing';
+    seconds = 0;
+
+    timerInterval = setInterval(() => {
+      seconds++;
+      const m = Math.floor(seconds / 60);
+      const s = seconds % 60;
+      document.getElementById('timer').textContent = `${m}:${s.toString().padStart(2, '0')}`;
+    }, 1000);
+
+    // Scene timing
+    const timings = [
+      [0, 0],      // Scene 1: Upload zone
+      [3000, 1],   // Scene 2: File dropped
+      [5000, 2],   // Scene 3: Processing
+      [8000, 3],   // Scene 4: Extracted fields (animate)
+      [18000, 4],  // Scene 5: Dashboard
+      [26000, 5],  // Scene 6: Liquor license
+      [38000, 6],  // Scene 7: Building permit
+      [50000, 7],  // Scene 8: Punchline
+    ];
+
+    timings.forEach(([time, scene]) => {
+      setTimeout(() => showScene(scene), time);
+    });
+
+    setTimeout(() => {
+      clearInterval(timerInterval);
+      btn.textContent = '✓ Done';
+    }, 60000);
+  }
+
+  // Keyboard nav
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextScene(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); prevScene(); }
+    if (e.key === 'p') startAutoplay();
+  });
+</script>
+
+</body>
+</html>
