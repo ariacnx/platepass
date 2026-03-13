@@ -1,17 +1,34 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { INTERVIEW_QUESTIONS } from '../data/permitDatabase'
 import { ENHANCED_EXTRACT_PROMPT } from '../utils/permitPrefill'
 
-export default function SmartStart({ answers, setAnswers, extractedData: parentExtracted, setExtractedData: setParentExtracted, navigate }) {
-  const [mode, setMode] = useState(null) // null | 'voice' | 'upload' | 'type'
+const DEMO_VOICE_TEXT = "I want to open a ramen spot called Nori with live music at night"
+
+export default function SmartStart({ answers, setAnswers, extractedData: parentExtracted, setExtractedData: setParentExtracted, navigate, demoMode }) {
+  const [mode, setMode] = useState(demoMode ? 'upload' : null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [isRecording, setIsRecording] = useState(false)
-  const [textInput, setTextInput] = useState('')
+  const [textInput, setTextInput] = useState(demoMode ? DEMO_VOICE_TEXT : '')
   const [extractedData, setExtractedDataLocal] = useState(null)
-  const [uploadedFiles, setUploadedFiles] = useState([])
+  const [uploadedFiles, setUploadedFiles] = useState(demoMode ? ['nori-lease-agreement.txt'] : [])
+  const [demoLeaseLoaded, setDemoLeaseLoaded] = useState(false)
   const mediaRecorderRef = useRef(null)
   const chunksRef = useRef([])
   const fileInputRef = useRef(null)
+
+  // Auto-load demo lease
+  useEffect(() => {
+    if (demoMode && !demoLeaseLoaded) {
+      setDemoLeaseLoaded(true)
+      fetch('/sample-lease.txt')
+        .then(r => r.text())
+        .then(text => {
+          // Store the lease text for processing
+          window.__demoLeaseText = text
+        })
+        .catch(() => {})
+    }
+  }, [demoMode])
 
   // Parse free-text into structured answers using OpenAI
   const parseWithAI = async (text, fileContents = '') => {
@@ -545,6 +562,24 @@ Return ONLY the JSON object, no other text.`
               className="w-full px-4 py-3 bg-white border border-stone-300 focus:border-stone-900 text-sm font-light text-stone-900 placeholder:text-stone-300 focus:outline-none transition resize-none"
             />
           </div>
+
+          {/* Demo mode: show analyze button since lease is pre-loaded */}
+          {demoMode && uploadedFiles.length > 0 && !isProcessing && (
+            <button
+              onClick={async () => {
+                setIsProcessing(true)
+                const leaseText = window.__demoLeaseText || ''
+                const extracted = await parseWithAI(
+                  textInput || 'Extract restaurant information from these documents.',
+                  leaseText
+                )
+                showExtracted(extracted)
+              }}
+              className="mt-6 w-full px-8 py-4 bg-stone-900 hover:bg-stone-800 text-white text-sm uppercase tracking-[0.2em] transition-all cursor-pointer"
+            >
+              Analyze Documents →
+            </button>
+          )}
         </div>
       </div>
     )

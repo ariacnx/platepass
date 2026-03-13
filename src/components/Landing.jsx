@@ -70,6 +70,13 @@ export default function Landing({ navigate }) {
             Get Started
           </button>
 
+          <button
+            onClick={() => navigate('smart', { demo: true })}
+            className="ml-4 px-8 py-4 bg-white hover:bg-stone-50 text-stone-900 text-sm uppercase tracking-[0.2em] transition-all cursor-pointer border border-stone-300 rounded-lg"
+          >
+            ▶ Try Demo
+          </button>
+
           <p className="text-xs text-stone-500 uppercase tracking-[0.2em] mt-4">
             2 minutes · No signup required
           </p>

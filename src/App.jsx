@@ -15,8 +15,11 @@ export default function App() {
   // Compute prefilled form data for all permits
   const permitForms = prefillPermitForms(answers, extractedData)
 
+  const [demoMode, setDemoMode] = useState(false)
+
   const navigate = (p, data) => {
     if (p === 'permit') setSelectedPermit(data?.permit)
+    if (data?.demo) setDemoMode(true)
     setPage(p)
     window.scrollTo(0, 0)
   }
@@ -31,6 +34,7 @@ export default function App() {
           extractedData={extractedData}
           setExtractedData={setExtractedData}
           navigate={navigate}
+          demoMode={demoMode}
         />
       )}
       {page === 'interview' && (
