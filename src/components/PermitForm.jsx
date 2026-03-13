@@ -76,19 +76,23 @@ export default function PermitForm({ permit, answers, prefillData = {}, navigate
 
       const rulesSummary = permit.rules.map(r => `- ${r.condition}: ${r.description} (${r.citation})`).join('\n')
 
-      const prompt = `You are PlatePass, a restaurant permit compliance expert. Analyze this ${permit.name} application for cross-field conflicts, hidden risks, and issues that individual rule checks would miss.
+      const prompt = `You are a restaurant permit compliance expert. Analyze this ${permit.name} application for cross-field conflicts only.
 
-Application data:
+Data:
 ${fieldSummary}
 
-Known regulations:
+Rules:
 ${rulesSummary}
 
-Find 1-3 CROSS-FIELD insights — things that only become problems when you look at multiple fields together. Be specific, cite real regulations, and include cost/time impact.
+Return 1-3 cross-field issues as JSON array. Each item:
+{"status":"warning"|"info","title":"max 5 words","message":"max 15 words, include dollar amount or timeline impact","citation":"code reference"}
 
-Return JSON array: [{"status":"warning"|"info","title":"short title","message":"detailed explanation with specific numbers","citation":"regulation reference"}]
-
-Only return issues NOT already caught by individual field rules. Focus on cross-field conflicts and subtle implications. If nothing additional to flag, return [].
+RULES:
+- Title: 5 words max (e.g. "Electrical panel at capacity")
+- Message: 15 words max, one sentence, specific numbers (e.g. "60A panel with 55A draw leaves no margin — upgrade to 200A costs $8k–$15k")
+- Only cross-field issues (things that need 2+ fields to detect)
+- Skip anything Layer 1 deterministic rules already catch
+- If nothing to add, return []
 Return ONLY the JSON array.`
 
       const res = await fetch('https://api.openai.com/v1/chat/completions', {
