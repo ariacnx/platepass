@@ -56,11 +56,11 @@ export default function Landing({ navigate }) {
           </h1>
 
           <p className="text-xl md:text-2xl font-normal text-stone-600 mb-3 tracking-wide">
-            We make opening a restaurant easy.
+            We make restaurant compliance easy.
           </p>
 
           <p className="text-base text-stone-500 max-w-lg mx-auto mb-14 leading-relaxed">
-            It takes 3 forms, 3 agencies, and 3 rulebooks to put a heater on your patio. We handle all of it.
+            Do you know it takes 3 forms, 3 agencies, and 3 rulebooks to put a heater on your patio?
           </p>
 
           <button
