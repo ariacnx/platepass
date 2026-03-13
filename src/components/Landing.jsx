@@ -55,13 +55,12 @@ export default function Landing({ navigate }) {
             PlatePass
           </h1>
 
-          <p className="text-xl md:text-2xl font-normal text-stone-600 mb-3 tracking-wide">
-            We make restaurant compliance easy.
+          <p className="text-lg md:text-xl font-normal text-stone-600 mb-3 tracking-wide leading-relaxed max-w-lg mx-auto">
+            It takes 3 forms, 3 agencies, and 3 rulebooks to put a heater on your patio.
           </p>
 
           <p className="text-base text-stone-500 max-w-lg mx-auto mb-14 leading-relaxed">
-            Answer a few questions about your restaurant. We'll tell you every permit you need, 
-            what it costs, and validate your applications in real-time.
+            PlatePass tells you every permit you need, what it costs, and catches $13,800 mistakes before you make them.
           </p>
 
           <button
