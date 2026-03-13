@@ -412,7 +412,7 @@
     <div class="upload-zone dropping">
       <div class="icon">📎</div>
       <p>Drop files here or click to browse</p>
-      <div class="file-tag">📄 sample-lease.txt — Nori Ramen LLC</div>
+      <div class="file-tag">📄 nori-lease-agreement.txt — Nori Ramen LLC, 3101 24th St SF</div>
     </div>
   </div>
 
@@ -439,22 +439,22 @@
       </div>
       <div class="field-row" data-delay="100">
         <span class="field-label">Location</span>
-        <span class="field-value">3101 24th St, San Francisco, CA</span>
+        <span class="field-value">3101 24th St, San Francisco, CA 94110</span>
         <span class="field-check">✓</span>
       </div>
       <div class="field-row" data-delay="200">
-        <span class="field-label">Situation</span>
-        <span class="field-value">Taking over existing space</span>
+        <span class="field-label">Square Footage</span>
+        <span class="field-value">2,400 sqft (kitchen 800 / dining 1,200)</span>
         <span class="field-check">✓</span>
       </div>
       <div class="field-row" data-delay="300">
-        <span class="field-label">Food Type</span>
-        <span class="field-value">Full-service restaurant</span>
+        <span class="field-label">Previous Use</span>
+        <span class="field-value">Retail (clothing boutique)</span>
         <span class="field-check">✓</span>
       </div>
       <div class="field-row" data-delay="400">
-        <span class="field-label">Serves Alcohol</span>
-        <span class="field-value">Yes — Type 47 (Full Liquor)</span>
+        <span class="field-label">Alcohol</span>
+        <span class="field-value">Type 47 — Full Liquor (35-40% revenue)</span>
         <span class="field-check">✓</span>
       </div>
       <div class="field-row" data-delay="500">
@@ -463,23 +463,23 @@
         <span class="field-check">✓</span>
       </div>
       <div class="field-row" data-delay="600">
-        <span class="field-label">Outdoor Dining</span>
-        <span class="field-value">Sidewalk seating — 14ft sidewalk</span>
+        <span class="field-label">Live Music</span>
+        <span class="field-value">Fri/Sat acoustic + Sunday DJ brunch</span>
         <span class="field-check">✓</span>
       </div>
       <div class="field-row" data-delay="700">
-        <span class="field-label">Construction</span>
-        <span class="field-value">Full renovation — retail to restaurant</span>
+        <span class="field-label">Hours</span>
+        <span class="field-value">Until 1 AM Fri/Sat — residential above</span>
         <span class="field-check">✓</span>
       </div>
       <div class="field-row" data-delay="800">
-        <span class="field-label">Signage</span>
-        <span class="field-value">Wall-mounted, illuminated</span>
+        <span class="field-label">Buildout</span>
+        <span class="field-value">$285k–$340k (full gut renovation)</span>
         <span class="field-check">✓</span>
       </div>
       <div class="field-row empty" data-delay="900">
-        <span class="field-label">Entertainment</span>
-        <span class="field-miss">Not detected — will ask during review</span>
+        <span class="field-label">ServSafe Cert</span>
+        <span class="field-miss">Not in lease — will ask during review</span>
       </div>
     </div>
   </div>
@@ -546,7 +546,7 @@
     </div>
   </div>
 
-  <!-- SCENE 6: Liquor License Detail + Validation -->
+  <!-- SCENE 6: Liquor License Detail + Proximity -->
   <div class="scene" id="scene6">
     <div class="label">🍷 Liquor License — Type 47</div>
     <h1>Application Details</h1>
@@ -558,53 +558,54 @@
     </div>
     <div class="form-field">
       <span class="fl">Near school / church (&lt;600ft)?</span>
-      <span class="fv" id="school-field">No</span>
+      <span class="fv" id="school-field" style="color:#a8a29e">Checking address...</span>
     </div>
     <div class="form-field">
       <span class="fl">Transferring existing license?</span>
       <span class="fv prefilled">No — new license</span>
     </div>
     <div class="form-field">
-      <span class="fl">Staff RBS training</span>
-      <span class="fv" style="color: #a8a29e; font-style: italic;">Not filled yet</span>
+      <span class="fl">Patio heaters</span>
+      <span class="fv prefilled">2 propane heaters</span>
     </div>
 
+    <div id="proximity-area"></div>
     <div id="validation-area"></div>
   </div>
 
-  <!-- SCENE 7: Building Permit Validation -->
+  <!-- SCENE 7: Building Permit + AI Insight -->
   <div class="scene" id="scene7">
     <div class="label">🏗️ Building Permit</div>
     <h1>Application Details</h1>
     <p class="subtitle">$5,000–$50,000 · City Building Department · 4–12 weeks</p>
 
     <div class="form-field">
-      <span class="fl">Previous use of space</span>
-      <span class="fv prefilled">Retail / shop</span>
+      <span class="fl">Previous use</span>
+      <span class="fv prefilled">Retail (clothing boutique)</span>
     </div>
     <div class="form-field">
       <span class="fl">Construction scope</span>
-      <span class="fv prefilled">Full renovation / gut remodel</span>
+      <span class="fv prefilled">Full gut renovation — $285k–$340k</span>
     </div>
     <div class="form-field">
-      <span class="fl">Grease interceptor</span>
-      <span class="fv prefilled">Yes — per lease (50 GPM minimum)</span>
+      <span class="fl">Electrical</span>
+      <span class="fv prefilled">100A → 400A upgrade</span>
     </div>
     <div class="form-field">
-      <span class="fl">ADA compliant?</span>
-      <span class="fv prefilled">Yes — renovation includes ADA restrooms</span>
+      <span class="fl">ADA restrooms</span>
+      <span class="fv prefilled">Converting 1 retail → 2 ADA-compliant</span>
     </div>
 
     <div id="building-validation">
       <div class="validation" style="animation-delay: 0.3s;">
-        <div class="tag">✗ Change of Occupancy Triggered</div>
-        <div class="msg">Converting from <strong>"Retail"</strong> to restaurant triggers a change of occupancy review. This may require <strong>seismic upgrade, full ADA renovation, and sprinkler installation. Budget $50,000–$200,000</strong> beyond your buildout costs.</div>
+        <div class="tag">✗ Change of Occupancy — Budget $50k–$200k Extra</div>
+        <div class="msg">Retail → restaurant triggers seismic upgrade, sprinklers, and full ADA renovation <strong>beyond your $285k buildout.</strong></div>
         <div class="cite">IBC §3408 — Change of Occupancy; ADA Title III</div>
       </div>
       <div class="validation warning" style="animation-delay: 0.8s;">
-        <div class="tag">⚠ Grease Interceptor Sizing</div>
-        <div class="msg">50 GPM minimum per lease. City may require larger based on your menu — full-service with fryers typically needs 75+ GPM. Get a plumber assessment before breaking ground.</div>
-        <div class="cite">UPC §1014 — Grease Interceptors</div>
+        <div class="tag">🧠 Late-Night + Residential Conflict</div>
+        <div class="msg">1 AM service with live music + residential on floors 2–3 = <strong>noise complaints and conditional use hearing</strong>. Could delay opening 2–3 months.</div>
+        <div class="cite">SF Noise Ordinance Art. 29 · AI Cross-Field Analysis</div>
       </div>
     </div>
   </div>
@@ -690,30 +691,43 @@
 
   function animateSchoolChange() {
     const field = document.getElementById('school-field');
-    const area = document.getElementById('validation-area');
+    const proxArea = document.getElementById('proximity-area');
+    const valArea = document.getElementById('validation-area');
 
     setTimeout(() => {
-      field.textContent = 'No';
-      field.className = 'fv prefilled';
-    }, 500);
+      field.textContent = '🔍 Searching nearby schools & churches...';
+      field.style.color = '#8b5cf6';
+    }, 400);
 
     setTimeout(() => {
-      field.textContent = 'Yes';
+      field.textContent = 'YES — 4 found within 600ft';
       field.style.color = '#dc2626';
       field.style.fontWeight = '700';
       field.style.background = 'rgba(220,38,38,0.06)';
       field.style.padding = '2px 8px';
+
+      proxArea.innerHTML = `
+        <div class="validation" style="border-left-color:#dc2626;">
+          <div class="tag">🚨 Proximity Alert — Auto-Detected via OpenStreetMap</div>
+          <div class="msg" style="font-size:14px;">
+            <div>🏫 <strong>Buena Vista Horace Mann K-8</strong> — ~450ft</div>
+            <div>🏫 <strong>César Chávez Elementary</strong> — ~520ft</div>
+            <div>⛪ <strong>St. Peter's Catholic Church</strong> — ~380ft</div>
+            <div>🛝 <strong>Balmy Alley Playground</strong> — ~290ft</div>
+          </div>
+        </div>
+      `;
     }, 2000);
 
     setTimeout(() => {
-      area.innerHTML = `
+      valArea.innerHTML = `
         <div class="validation">
-          <div class="tag">🚨 ✗ CRITICAL — Application Will Be Denied</div>
-          <div class="msg">Location is within <strong>600ft of a school or church</strong>. Liquor license will be <strong>DENIED</strong>. The <strong>$13,800 application fee is non-refundable</strong>. Do NOT submit this application. Consider a different location or apply for an exception (rarely granted).</div>
-          <div class="cite">CA Business & Professions Code §23789 — Premises Near Schools</div>
+          <div class="tag">✗ DENIED — $13,800 Non-Refundable</div>
+          <div class="msg">Location is within 600ft of a school. Your Type 47 liquor license <strong>will be denied</strong>. The $13,800 fee is <strong>non-refundable</strong>. Do NOT submit.</div>
+          <div class="cite">CA Business & Professions Code §23789</div>
         </div>
       `;
-    }, 2800);
+    }, 3200);
   }
 
   // Auto-play
